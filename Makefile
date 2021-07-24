@@ -1,28 +1,38 @@
+CC = gcc
 NAME = minishell
-CFLAGS = -Wall -Werror -Wextra
-DIR_LIBFT = ./libft
+DIR_LIBFT = libft
 NAME_LIBFT = libft.a
 
-SRC =	main.c
-OBJ = $(SRC:.c=.o)
+CFLAGS = -Wall -Werror -Wextra
 
-.PHONY: all clean fclean re bonus
+
+SRC =	main.c
+
+OBJ = $(SRC:.c=.o)
+DEP = $(SRC:.c=.d)
+
+all: lib $(NAME)
+
+lib:
+	$(MAKE) bonus -C $(DIR_LIBFT)
 
 %.o: %.c
-	gcc $(CFLAGS) -I. -I$(DIR_LIBFT) -c $< -o $@
+	$(CC) $(CFLAGS) -I. -I$(DIR_LIBFT) -c $< -o $@
+	$(CC) -MM $(CFLAGS) -I. -I$(DIR_LIBFT) $< > $*.d
 
-$(NAME):
-	$(MAKE) -C $(DIR_LIBFT)
-	cp libft/libft.a $(NAME)
+-include $(OBJ:.o=.d)
 
-all: $(NAME):
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lft -L$(DIR_LIBFT)
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ) $(DEP)
 	$(MAKE) clean -C $(DIR_LIBFT)
 
 fclean:	clean
 	rm -rf $(NAME)
 	$(MAKE) fclean -C $(DIR_LIBFT)
 
-re: fclean all: $(NAME)
+re: fclean all
+
+.PHONY: all clean fclean re
