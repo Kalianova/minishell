@@ -18,6 +18,8 @@ Minishell
   |
   |---- libft
   |       |
+  |       |---- Makefile
+  |       |
   |       |---- libft.h
   |       |
   |       |---- *.c
