@@ -1,17 +1,21 @@
 CC = gcc
+CFLAGS = -Wall -Werror -Wextra
 NAME = minishell
+
 DIR_LIBFT = libft
 NAME_LIBFT = libft.a
+DIR_SRCS = srcs
+DIR_INC = include
+DIR_BUILD = build
 
-CFLAGS = -Wall -Werror -Wextra
-
-
-SRC =	main.c \
+SRCS =	main.c \
 		validator.c \
 		parser.c \
 
-OBJ = $(SRC:.c=.o)
-DEP = $(SRC:.c=.d)
+SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
+
+OBJ = $(SRC:%.c=%.o)
+DEP = $(OBJ:%.o=%.d)
 
 all: lib $(NAME)
 
@@ -19,10 +23,9 @@ lib:
 	$(MAKE) bonus -C $(DIR_LIBFT)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I. -I$(DIR_LIBFT) -c $< -o $@
-	$(CC) -MM $(CFLAGS) -I. -I$(DIR_LIBFT) $< > $*.d
+	$(CC) $(CFLAGS) -MMD -I$(DIR_INC) -I$(DIR_LIBFT) -c $< -o $@
 
--include $(OBJ:.o=.d)
+-include $(DEP)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lft -L$(DIR_LIBFT) -lreadline
