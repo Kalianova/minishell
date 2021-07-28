@@ -6,7 +6,9 @@ NAME_LIBFT = libft.a
 CFLAGS = -Wall -Werror -Wextra
 
 
-SRC =	main.c
+SRC =	main.c \
+		validator.c \
+		parser.c \
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
@@ -23,7 +25,7 @@ lib:
 -include $(OBJ:.o=.d)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lft -L$(DIR_LIBFT)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -lft -L$(DIR_LIBFT) -lreadline
 
 clean:
 	rm -rf $(OBJ) $(DEP)

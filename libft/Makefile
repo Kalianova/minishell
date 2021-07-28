@@ -42,6 +42,7 @@ SRC = ft_atoi.c \
 	ft_strrchr.c \
 	ft_strtrim.c \
 	ft_substr.c \
+	ft_isubstr.c \
 	ft_split.c \
 	ft_tolower.c \
 	ft_toupper.c \
@@ -60,6 +61,7 @@ BONUS = ft_lstnew.c \
 	ft_lstclear.c \
 	ft_lstiter.c \
 	ft_lstmap.c
+
 NAME = libft.a
 .PHONY:all clean fclean re bonus
 
