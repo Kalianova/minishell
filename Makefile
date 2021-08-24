@@ -11,6 +11,9 @@ DIR_BUILD = build
 SRCS =	main.c \
 		validator.c \
 		parser.c \
+		execute_commands.c \
+		pipe.c \
+		pipex_utils.c \
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 

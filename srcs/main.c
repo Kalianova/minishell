@@ -28,7 +28,7 @@ void	free_shell(t_shell **sh)
 	}	
 }
 
-int	main(void)
+int	main(int , char **, char **envp)
 {
 	char		*line;
 	t_shell		*sh;
@@ -44,7 +44,10 @@ int	main(void)
 		if (err_code != 0)
 			error_handler(err_code);
 		else
+		{
 			sh = parser(line);
+			execute_commads(sh, envp);
+		}
 		free(line);
 		free_shell(&sh);
 	}

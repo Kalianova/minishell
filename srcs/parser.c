@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-int	len_cmd(const char *command)
-{
-	int	i;
-
-	i = 0;
-	if (command == NULL)
-		return (i);
-	while (command[i] != ' ' && command[i] != '\0')
-	{
-		++i;
-	}
-	return (i);
-}
-
 int	count_commands(const char *line)
 {
 	int	i;
