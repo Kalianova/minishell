@@ -40,10 +40,11 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 {
 	t_cmd	cmd;
 
-	cmd.name = ft_substr(sh->commands[i].name, 0, len_cmd(sh->commands[i].name));
+	cmd.name = ft_substr(sh->commands[i].name,
+			0, len_cmd(sh->commands[i].name));
 	cmd.path = get_path(cmd.name, envp);
 	cmd.params[0] = ft_strdup(cmd.name);
-	cmd.params[1] = ft_strdup(ft_strtrim(sh->commands[i].params, " ")); // maybe leaks.
+	cmd.params[1] = ft_strtrim(sh->commands[i].params, " ");
 	cmd.params[2] = NULL;
 	if (*cmd.params[1] == '\0')
 	{
@@ -51,18 +52,6 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 		cmd.params[1] = NULL;
 	}
 	return (cmd);
-}
-
-void	free_cmd(t_cmd cmd)
-{
-	if (cmd.name != NULL)
-		free(cmd.name);
-	if (cmd.path != NULL)
-		free(cmd.path);
-	if (cmd.params[0] != NULL)
-		free(cmd.params[0]);
-	if (cmd.params[1] != NULL)
-		free(cmd.params[1]);
 }
 
 char	*get_access_path(char *cmd_name, char *path, char **paths)

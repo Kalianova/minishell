@@ -28,7 +28,7 @@ void	free_shell(t_shell **sh)
 	}	
 }
 
-int	main(int , char **, char **envp)
+int	main(int, char **, char **envp)
 {
 	char		*line;
 	t_shell		*sh;

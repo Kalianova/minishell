@@ -56,7 +56,7 @@ t_shell	*parser(const char *line)
 		sh->commands[i].name = ft_isubstr(cmds[i], 0, len_cmd(cmds[i]), '"');
 		sh->commands[i].params = ft_isubstr(cmds[i], len_cmd(cmds[i]),
 				ft_strlen(cmds[i]) - len_cmd(cmds[i]), '"');
-		printf("command = (%s) (%s)\n", sh->commands[i].name, sh->commands[i].params); //debug
+		// printf("command = (%s) (%s)\n", sh->commands[i].name, sh->commands[i].params); //debug
 		++i;
 	}
 	i = 0;

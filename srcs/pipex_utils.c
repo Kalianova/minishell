@@ -38,3 +38,15 @@ void	free_strings(char **strs)
 	}
 	free(strs);
 }
+
+void	free_cmd(t_cmd cmd)
+{
+	if (cmd.name != NULL)
+		free(cmd.name);
+	if (cmd.path != NULL)
+		free(cmd.path);
+	if (cmd.params[0] != NULL)
+		free(cmd.params[0]);
+	if (cmd.params[1] != NULL)
+		free(cmd.params[1]);
+}

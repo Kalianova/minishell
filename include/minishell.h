@@ -39,18 +39,24 @@ int				execute_commads(t_shell *sh, char **envp);
 
 /* pipe.c */
 
-pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out);
+pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out);
 
-t_cmd	parser_cmd(t_shell *sh, int i, char **envp);
+t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 
-void	free_cmd(t_cmd cmd);
+void			free_cmd(t_cmd cmd);
 
-char	*get_path(char *cmd_name, char **envp);
+char			*get_path(char *cmd_name, char **envp);
 
 /* pipex_utils.c */
 
-int		len_cmd(const char *command);
+int				len_cmd(const char *command);
 
-void	free_strings(char **strs);
+void			free_strings(char **strs);
+
+void			free_cmd(t_cmd cmd);
+
+/* redirections.c */
+
+int				redirected(char *params, int io);
 
 #endif
