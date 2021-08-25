@@ -59,4 +59,14 @@ void			free_cmd(t_cmd cmd);
 
 int				redirected(char *params, int io);
 
+/* implemented_utils.c */
+
+int				is_implemented(char *cmd_name);
+
+int				my_exec(char *cmd, char *params);
+
+/* implemented.c */
+
+void			cd(const char *params);
+
 #endif

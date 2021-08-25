@@ -8,8 +8,9 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out)
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	if (execve(cmd.path, cmd.params, NULL) == -1)
-		return (1);
+	if (my_exec(cmd.path, cmd.params[1]) == -1)
+		if (execve(cmd.path, cmd.params, NULL) == -1)
+			return (1);
 	return (0);
 }
 
@@ -78,6 +79,8 @@ char	*get_path(char *cmd_name, char **envp)
 	char	*result;
 
 	i = 0;
+	if (is_implemented(cmd_name))
+		return (ft_strdup(cmd_name));
 	if (access(cmd_name, X_OK) == 0)
 		return (ft_strdup(cmd_name));
 	while (*envp)

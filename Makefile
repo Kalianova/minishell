@@ -15,6 +15,8 @@ SRCS =	main.c \
 		pipe.c \
 		pipex_utils.c \
 		redirections.c \
+		implemented_utils.c \
+		implemented.c \
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 
