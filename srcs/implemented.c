@@ -52,10 +52,15 @@ int	ft_echo(const char *params)
 	return (0);
 }
 
-int	ft_pwd()
+int	ft_pwd(const char *params)
 {
 	char *res;
 	
+	if (params && params[0] == '-')
+	{
+		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n", params[1]);
+		return (0);
+	}
 	res = getcwd(NULL, 0);
 	printf("%s\n", res);
 	if (res == NULL)

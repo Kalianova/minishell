@@ -1,6 +1,12 @@
 #include "libft.h"
 #include "minishell.h"
 
+void	signal_handler(int code)
+{
+	printf("--%i", code);
+	fflush(stdout);
+}
+
 void	error_handler(int code)
 {
 	printf("minishell: ");
@@ -40,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("$> ");
+		//signal(SIGINT, signal_handler);
 		if (line == NULL)
 			return (0);
 		err_code = validate_line(line);

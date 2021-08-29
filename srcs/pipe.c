@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	child_process(t_cmd cmd, int fd_in, int fd_out)
+int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
 {
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
@@ -8,13 +8,13 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out)
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	if (my_exec(cmd.path, cmd.params[1]) == -1)
+	if (my_exec(cmd.path, cmd.params[1], envp) == -1)
 		if (execve(cmd.path, cmd.params, NULL) == -1)
 			return (1);
 	return (0);
 }
 
-pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out)
+pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp)
 {
 	pid_t	pid;
 	int		fd_old_out;
@@ -25,7 +25,7 @@ pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out)
 	if (pid == 0)
 	{
 		fd_old_out = dup(STDOUT_FILENO);
-		if (child_process(cmd, fd_in, fd_out))
+		if (child_process(cmd, fd_in, fd_out, envp))
 		{
 			dup2(fd_old_out, STDOUT_FILENO);
 			close(fd_old_out);
