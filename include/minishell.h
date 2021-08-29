@@ -67,6 +67,20 @@ int				my_exec(char *cmd, char *params);
 
 /* implemented.c */
 
-void			cd(const char *params);
+int				ft_cd(const char *params);
+
+int				ft_echo(const char *params);
+
+int				ft_pwd();
+
+int				ft_exit(const char *params);
+
+/* implemented_2.c */
+
+int				ft_export(const char *params);
+
+int				ft_unset(const char *params);
+
+int				ft_env(const char *params);
 
 #endif

@@ -21,6 +21,8 @@ int	ft_strncmp(char *lhs, char *rhs, size_t n)
 	l = (unsigned char *)lhs;
 	r = (unsigned char *)rhs;
 	i = 0;
+	if (lhs == NULL || rhs == NULL)
+		return (-1);
 	while ((l[i] != '\0' || r[i] != '\0') && i < n)
 	{
 		if (l[i] != r[i])

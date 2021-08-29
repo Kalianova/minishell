@@ -28,12 +28,14 @@ void	free_shell(t_shell **sh)
 	}	
 }
 
-int	main(int, char **, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		*sh;
 	int			err_code;
 
+	if (argc >= 0 && argv != NULL)
+		argv = NULL;
 	sh = NULL;
 	while (1)
 	{
