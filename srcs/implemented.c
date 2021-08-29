@@ -17,10 +17,7 @@ void ft_clean(char ***arr)
 
 int	ft_cd(const char *params)
 {
-	//ft_pwd();
-	//chdir(params);
-	//ft_pwd();
-	printf("Help me, i am empty :c -> cd %s\n", params);
+	chdir(params);
 	return (0);
 }
 
@@ -66,6 +63,6 @@ int	ft_pwd()
 
 int	ft_exit(const char *params)
 {
-	printf("Help me, i am empty :c -> cd %s\n", params);
+	printf("Help me, i am empty :c -> exit %s\n", params);
 	return (0);
 }

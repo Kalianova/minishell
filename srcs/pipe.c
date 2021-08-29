@@ -8,7 +8,7 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out)
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	if (my_exec(cmd.path, cmd.params[1]) == -1)
+	if (my_exec(cmd.path, cmd.params[1]) == 127)
 		if (execve(cmd.path, cmd.params, NULL) == -1)
 			return (1);
 	return (0);
@@ -32,7 +32,7 @@ pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out)
 			write(1, "Error: No such command or dup2 failed!\n", 39);
 			exit(1);
 		}
-		exit(0);
+		// exit(0);
 	}
 	return (pid);
 }

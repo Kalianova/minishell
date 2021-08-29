@@ -16,14 +16,14 @@ int	is_implemented(char *cmd_name)
 int	my_exec(char *cmd, char *params)
 {
 	if (ft_strncmp(cmd, "cd", 3) == 0)
-		ft_cd(params);
+		return (ft_cd(params));
 	if (ft_strncmp(cmd, "echo", 5) == 0)
-		ft_echo(params);
+		return (ft_echo(params));
 	if (ft_strncmp(cmd, "pwd", 4) == 0)
-		ft_pwd();
+		return (ft_pwd());
 	if (ft_strncmp(cmd, "exit", 5) == 0)
-		ft_exit(params);
+		return (ft_exit(params));
 	else
-		return (-1);
+		return (127);
 	return (0);
 }
