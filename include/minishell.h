@@ -39,7 +39,7 @@ int				execute_commads(t_shell *sh, char **envp);
 
 /* pipe.c */
 
-pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out);
+pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp);
 
 t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 
@@ -63,7 +63,7 @@ int				redirected(char *params, int io);
 
 int				is_implemented(char *cmd_name);
 
-int				my_exec(char *cmd, char *params);
+int				my_exec(char *cmd, char *params, char **envp);
 
 /* implemented.c */
 
@@ -71,7 +71,7 @@ int				ft_cd(const char *params);
 
 int				ft_echo(const char *params);
 
-int				ft_pwd();
+int				ft_pwd(const char *params);
 
 int				ft_exit(const char *params);
 
@@ -81,6 +81,6 @@ int				ft_export(const char *params);
 
 int				ft_unset(const char *params);
 
-int				ft_env(const char *params);
+int				ft_env(const char *params, char **envp);
 
 #endif

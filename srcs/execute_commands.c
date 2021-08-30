@@ -63,7 +63,7 @@ int	execute_commads(t_shell *sh, char **envp)
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
 		cmd = parser_cmd(sh, i, envp);
-		pids[i] = execute_cmd(cmd, fd_in, fd_out);
+		pids[i] = execute_cmd(cmd, fd_in, fd_out, envp);
 		close(fd_in);
 		close(fd_out);
 		free_cmd(cmd);
