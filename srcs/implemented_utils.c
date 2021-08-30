@@ -22,16 +22,16 @@ int	is_implemented(char *cmd_name)
 int	my_exec(char *cmd, char *params, char **envp)
 {
 	if (ft_strncmp(cmd, "cd", 3) == 0)
-		ft_cd(params);
-	if (ft_strncmp(cmd, "echo", 5) == 0)
-		ft_echo(params);
-	if (ft_strncmp(cmd, "pwd", 4) == 0)
-		ft_pwd(params);
-	if (ft_strncmp(cmd, "exit", 5) == 0)
-		ft_exit(params);
-	if (ft_strncmp(cmd, "env", 4) == 0)
-		ft_env(params, envp);
+		return (ft_cd(params));
+	else if (ft_strncmp(cmd, "echo", 5) == 0)
+		return (ft_echo(params));
+	else if (ft_strncmp(cmd, "pwd", 4) == 0)
+		return(ft_pwd(params));
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
+		return(ft_exit(params));
+	else if (ft_strncmp(cmd, "env", 4) == 0)
+		return(ft_env(params, envp));
 	else
-		return (-1);
+		return (127);
 	return (0);
 }
