@@ -49,6 +49,8 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGINT, signal_handler);
 		if (line == NULL)
 			return (0);
+		add_history(line);
+		rl_on_new_line();
 		err_code = validate_line(line);
 		if (err_code != 0)
 			error_handler(err_code);
@@ -60,5 +62,6 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		free_shell(&sh);
 	}
+	rl_clear_history();
 	return (0);
 }
