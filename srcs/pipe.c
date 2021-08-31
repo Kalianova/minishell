@@ -9,8 +9,10 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
 		return (1);
 	close(fd_out);
 	if (my_exec(cmd.path, cmd.params[1], envp) == 127)
+	{
 		if (execve(cmd.path, cmd.params, NULL) == -1)
 			return (1);
+	}
 	return (0);
 }
 
@@ -30,7 +32,7 @@ pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp)
 			dup2(fd_old_out, STDOUT_FILENO);
 			close(fd_old_out);
 			write(1, "Error: No such command or dup2 failed!\n", 39);
-			exit(1);
+			// exit(1);
 		}
 		// exit(0);
 	}
@@ -55,7 +57,7 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 	return (cmd);
 }
 
-char	*get_access_path(char *cmd_name, char *path, char **paths)
+char	*get_access_path(char *cmd_name, char *path)
 {
 	char	*temp;
 	char	*result;
@@ -64,10 +66,7 @@ char	*get_access_path(char *cmd_name, char *path, char **paths)
 	result = ft_strjoin(temp, cmd_name);
 	free(temp);
 	if (access(result, X_OK) == 0)
-	{
-		free_strings(paths);
 		return (result);
-	}
 	free(result);
 	return (NULL);
 }
@@ -90,11 +89,15 @@ char	*get_path(char *cmd_name, char **envp)
 			paths = ft_split(*envp + 5, ':');
 			while (paths[i] != NULL)
 			{
-				result = get_access_path(cmd_name, paths[i], paths);
+				result = get_access_path(cmd_name, paths[i]);
 				if (result != NULL)
+				{
+					ft_free_words(paths);
 					return (result);
+				}
 				++i;
 			}
+			ft_free_words(paths);
 		}
 		++envp;
 	}

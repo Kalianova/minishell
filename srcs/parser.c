@@ -65,5 +65,6 @@ t_shell	*parser(const char *line)
 		free(cmds[i]);
 		++i;
 	}
+	free(cmds);
 	return (sh);
 }
