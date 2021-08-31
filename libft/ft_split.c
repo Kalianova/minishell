@@ -12,53 +12,67 @@
 
 #include "libft.h"
 
-static void	*ft_free_all(char **ar)
+static int	count_words(char const *s, char c)
 {
-	int	i;
+	long long	count;
+	char		*point;
 
-	i = 0;
-	while (ar[i] != NULL)
+	count = 0;
+	point = (char *)s;
+	while (*point == c && *point)
+		++point;
+	if (c == '\0' && *point)
+		return (1);
+	if (!(*point))
+		return (0);
+	while (*point)
 	{
-		free(ar[i]);
-		++i;
+		while (*point != c && *point)
+			++point;
+		count++;
+		while (*point == c && *point)
+			++point;
 	}
-	free(ar);
-	return (NULL);
+	return (count);
 }
 
-static void	ages(const char *s, char c, int *start, int *i)
+static char	*make_word(char const *s, int *begin, char c)
 {
-	*i = 0;
-	while (s[(*start)] == c)
-		++(*start);
-	while (s[(*start) + (*i)] != c && s[(*start) + (*i)] != '\0')
-		++(*i);
+	int j;
+
+	j = 0;
+	while (s[*begin] == c && s[*begin])
+		(*begin)++;
+	while (s[(*begin) + j] != c && s[(*begin) + j])
+		j++;
+	(*begin) += j;
+	return (ft_substr(s, (*begin) - j, j));
 }
 
-char	**ft_split(const char *s, char c)
+char		**ft_split(char const *s, char c)
 {
-	int		len;
-	int		start;
+	int		words;
 	int		i;
-	int		j;
+	int		arr;
 	char	**res;
 
-	if (s == NULL)
+	i = 0;
+	arr = -1;
+	if (!s)
 		return (NULL);
-	len = ft_count_words(s, c);
-	res = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!res)
+	words = count_words(s, c);
+	if (!(res = (char **)malloc((words + 1) * sizeof(char *))))
 		return (NULL);
-	start = 0;
-	j = -1;
-	while (++j < len)
+	while (++arr < words)
 	{
-		ages(s, c, &start, &i);
-		res[j] = ft_substr(s, start, i);
-		if (!res[j])
-			return (ft_free_all(res));
-		start += i + 1;
+		res[arr] = make_word(s, &i, c);
+		if (!res[arr])
+		{
+			while (--arr >= 0)
+				free(res[arr]);
+			free(res);
+		}
 	}
-	res[len] = NULL;
+	res[words] = NULL;
 	return (res);
 }
