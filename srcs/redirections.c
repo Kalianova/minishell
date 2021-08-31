@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char *get_file_name(char *s)
+char	*get_file_name(char *s)
 {
 	int		i;
 	int		start;
@@ -20,7 +20,6 @@ char *get_file_name(char *s)
 		s[start] = ' ';
 		++start;
 	}
-	// printf("LOG: %s\n", s);
 	return (res);
 }
 
@@ -80,6 +79,5 @@ int	redirected(char *params, int io)
 		}
 		++i;
 	}
-	// printf("\n\n---LOG---\n File:%s fd: %i\n", file_name, fd);
 	return (fd);
 }

@@ -1,20 +1,20 @@
 #include "minishell.h"
 
-int ft_export(const char *params)
+int	ft_export(const char *params)
 {
 	printf("Help me, i am empty :c -> cd %s\n", params);
 	return (0);
 }
 
-int ft_unset(const char *params)
+int	ft_unset(const char *params)
 {
 	printf("Help me, i am empty :c -> cd %s\n", params);
 	return (0);
 }
 
-int ft_env(const char *params, char **envp)
+int	ft_env(const char *params, char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (envp == NULL)
