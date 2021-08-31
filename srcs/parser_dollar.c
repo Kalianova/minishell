@@ -28,13 +28,19 @@ char *join_strings(char ***strs)
 	return (res);
 }
 
-void	new_param(char **param, char **envp)
+void	new_param(char **param, char **envp, int code)
 {
 	char *res;
 	int len;
 	char *part_of_param;
 
 	len = ft_strlen(*param);
+	if (ft_strncmp(*param, "$?", 3) == 0)
+	{
+		free(*param);
+		*param = ft_itoa(code);
+		return ;
+	}
 	part_of_param = ft_substr(*param, 1, len);
 	part_of_param[len - 1] = '=';
 	while (*envp)
@@ -64,15 +70,19 @@ int count_param(char *param)
 	i = 0;
 	count = 0;
 	if (param[i] && (param[i] != '$' ||
-		!ft_isalnum(param[i + 1])))
+		!(ft_isalnum(param[i + 1]) || param[i + 1] == '?')))
 		count = 1;
 	while (param[i])
 	{
-		if (param[i] == '$' && ft_isalnum(param[i + 1]))
+		if (param[i] == '$' && (ft_isalnum(param[i + 1]) ||
+			param[i + 1] == '?'))
 		{
 			++i;
-			while (param[i] && ft_isalnum(param[i]))
+			if (param[i + 1] == '?')
 				++i;
+			else
+				while (param[i] && ft_isalnum(param[i]))
+					++i;
 			if (param[i] && !(param[i] == '$' && ft_isalnum(param[i + 1])))
 				count++;
 			count++;
@@ -88,6 +98,8 @@ int find_end_elem(char *param)
 	int i;
 	
 	i = 1;
+	if (param[0] == '$' && param[1] == '?')
+		return (2);
 	if (param[0] == '$' && ft_isalnum(param[1]))
 	{
 		while(ft_isalnum(param[i]))
@@ -95,13 +107,14 @@ int find_end_elem(char *param)
 	}
 	else
 	{
-		while(param[i] && !(param[i] == '$' && ft_isalnum(param[i + 1])))
+		while(param[i] && !(param[i] == '$' &&
+			(ft_isalnum(param[i + 1]) || param[i + 1] == '?')))
 			i++;
 	}
 	return (i);
 }
 
-void			parser_dollar(char **param, char **envp)
+void			parser_dollar(char **param, char **envp, int code)
 {
 	int i;
 	int len;
@@ -117,8 +130,8 @@ void			parser_dollar(char **param, char **envp)
 	{
 		end_elem = find_end_elem(*param);
 		res[i] = ft_substr(*param, 0, end_elem);
-		if ((*param)[0] == '$' && ft_isalnum((*param)[1]))
-			new_param(&(res[i]), envp);
+		if ((*param)[0] == '$' && (ft_isalnum((*param)[1]) || (*param)[1] == '?'))
+			new_param(&(res[i]), envp, code);
 		*param += end_elem;
 		++i;
 	}
