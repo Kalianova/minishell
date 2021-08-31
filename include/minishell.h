@@ -83,4 +83,8 @@ int				ft_unset(const char *params);
 
 int				ft_env(const char *params, char **envp);
 
+/* parser_dollar.c */
+
+void			parser_dollar(char **param, char **envp);
+
 #endif
