@@ -28,11 +28,11 @@ char *join_strings(char ***strs)
 	return (res);
 }
 
-void	new_param(char **param, char **envp, int code)
+void	new_param(char **param, t_map *envp, int code)
 {
-	char *res;
 	int len;
 	char *part_of_param;
+	t_map *res;
 
 	len = ft_strlen(*param);
 	if (ft_strncmp(*param, "$?", 3) == 0)
@@ -41,25 +41,19 @@ void	new_param(char **param, char **envp, int code)
 		*param = ft_itoa(code);
 		return ;
 	}
-	part_of_param = ft_substr(*param, 1, len);
-	part_of_param[len - 1] = '=';
-	while (*envp)
+	part_of_param = ft_substr(*param, 1, len - 1);
+	res = ft_mapfind(envp, part_of_param);
+	if (res)
 	{
-		if (ft_strncmp(part_of_param, *envp, len) == 0)
-		{
-			res = ft_substr(*envp, len, ft_strlen(*envp) - len);
-			free(part_of_param);
-			free(*param);
-			*param = res;
-			return ;
-		}
-		++envp;
+		free(part_of_param);
+		free(*param);
+		*param = res->value;
+		return ;
 	}
 	free(part_of_param);
 	free(*param);
-	res = (char *)malloc(sizeof(char) * 1);
-	res[0] = '\0';
-	*param = res;
+	*param = (char *)malloc(sizeof(char) * 1);
+	(*param)[0] = '\0';
 }
 
 int count_param(char *param)
@@ -114,7 +108,7 @@ int find_end_elem(char *param)
 	return (i);
 }
 
-void			parser_dollar(char **param, char **envp, int code)
+void			parser_dollar(char **param, t_map *envp, int code)
 {
 	int i;
 	int len;

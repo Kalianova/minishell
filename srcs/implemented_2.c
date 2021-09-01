@@ -12,11 +12,8 @@ int ft_unset(const char *params)
 	return (0);
 }
 
-int ft_env(const char *params, char **envp)
+int ft_env(const char *params, t_map *envp)
 {
-	int i;
-
-	i = 0;
 	if (envp == NULL)
 		return (-1);
 	if (params && params[0] == '-')
@@ -29,10 +26,11 @@ int ft_env(const char *params, char **envp)
 		printf("env: invalid arguments -- '%s'\n", params);
 		return (0);
 	}
-	while (envp[i])
+	while (envp->prev)
 	{
-		printf("%s\n", envp[i]);
-		++i;
+		printf("%s=%s\n", envp->key, envp->value);
+		envp = envp->prev;
 	}
+	printf("%s=%s\n", envp->key, envp->value);
 	return (0);
 }

@@ -19,18 +19,20 @@ int	is_implemented(char *cmd_name)
 	return (0);
 }
 
-int	my_exec(char *cmd, char *params, char **envp)
+int	my_exec(char *cmd, char *params, t_map *map)
 {
+	//parser_dollar(&params, map, 5);
+	//printf("%s\n", params);
 	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (ft_cd(params));
 	else if (ft_strncmp(cmd, "echo", 5) == 0)
-		return (ft_echo(params));
+		return (ft_echo(&params));
 	else if (ft_strncmp(cmd, "pwd", 4) == 0)
 		return (ft_pwd(params));
 	else if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (ft_exit(params));
 	else if (ft_strncmp(cmd, "env", 4) == 0)
-		return (ft_env(params, envp));
+		return (ft_env(params, map));
 	else
 		return (127);
 	return (0);

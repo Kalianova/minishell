@@ -18,7 +18,8 @@ SRCS =	main.c \
 		implemented_utils.c \
 		implemented.c \
 		implemented_2.c \
-		parser_dollar.c
+		parser_dollar.c \
+		map.c
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 

@@ -15,41 +15,38 @@ void ft_clean(char ***arr)
 	free(*arr);
 }
 
-int	ft_cd(const char *params)
+int	ft_cd(char *params)
 {
 	chdir(params);
 	return (0);
 }
 
-int	ft_echo(const char *params)
+int	ft_echo(char **params)
 {
-	char **splited;
 	int i;
 	int flag;
 
-	if (params == NULL)
+	if (!params)
+		return (-1);
+	if (*params == NULL)
 		return (printf("\n") * 0);
-	splited = ft_split(params, ' ');
 	i = 0;
 	flag = 0;
-	if (!splited)
-		return (-1);
-	while (ft_strncmp(splited[i], "-n", 3) == 0)
+	while (ft_strncmp(params[i], "-n", 3) == 0)
 	{
 		flag = 1;
 		++i;
 	} 
-	if (splited[i])
-		printf("%s", splited[i]);
-	while (splited[++i])
-		printf(" %s", splited[i]);
-	ft_clean(&splited);
+	if (params[i])
+		printf("%s", params[i]);
+	while (params[++i])
+		printf(" %s", params[i]);
 	if (!flag)
 		printf("\n");
 	return (0);
 }
 
-int	ft_pwd(const char *params)
+int	ft_pwd(char *params)
 {
 	char *res;
 	
@@ -66,7 +63,7 @@ int	ft_pwd(const char *params)
 	return (0);
 }
 
-int	ft_exit(const char *params)
+int	ft_exit(char *params)
 {
 	printf("Help me, i am empty :c -> exit %s\n", params);
 	return (0);

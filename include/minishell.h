@@ -31,15 +31,23 @@ typedef struct s_cmd
 	char		*params[3];
 }				t_cmd;
 
+typedef struct s_map
+{
+	struct s_map	*next;
+	struct s_map	*prev;
+	char			*key;
+	char			*value;
+}				t_map;
+
 int				validate_line(const char *line);
 
 t_shell			*parser(const char *line);
 
-int				execute_commads(t_shell *sh, char **envp);
+int				execute_commads(t_shell *sh, char **envp, t_map *map);
 
 /* pipe.c */
 
-pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp);
+pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map *envp);
 
 t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 
@@ -63,17 +71,17 @@ int				redirected(char *params, int io);
 
 int				is_implemented(char *cmd_name);
 
-int				my_exec(char *cmd, char *params, char **envp);
+int				my_exec(char *cmd, char *params, t_map *map);
 
 /* implemented.c */
 
-int				ft_cd(const char *params);
+int				ft_cd(char *params);
 
-int				ft_echo(const char *params);
+int				ft_echo(char **params);
 
-int				ft_pwd(const char *params);
+int				ft_pwd(char *params);
 
-int				ft_exit(const char *params);
+int				ft_exit(char *params);
 
 /* implemented_2.c */
 
@@ -81,10 +89,22 @@ int				ft_export(const char *params);
 
 int				ft_unset(const char *params);
 
-int				ft_env(const char *params, char **envp);
+int				ft_env(const char *params, t_map *envp);
 
 /* parser_dollar.c */
 
-void			parser_dollar(char **param, char **envp, int code);
+void			parser_dollar(char **param, t_map *envp, int code);
+
+/* map.c */
+
+void			ft_mapadd(t_map **map, char *key, char *value);
+
+void			ft_mapdel(t_map **map, char *key);
+
+void			ft_mapreplace(t_map *map, char *key, char *value);
+
+t_map			*ft_mapfind(t_map *map, char *key);
+
+void			ft_mapdelall(t_map **map);
 
 #endif
