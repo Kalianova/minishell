@@ -17,7 +17,8 @@ SRCS =	main.c \
 		redirections.c \
 		implemented_utils.c \
 		implemented.c \
-		implemented_2.c
+		implemented_2.c \
+		parser_dollar.c
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 
