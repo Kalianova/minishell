@@ -79,11 +79,15 @@ int	execute_commads(t_shell *sh, char **envp)
 		fd_out = get_fd(sh, fd_pipes, i, 1);
 		cmd = parser_cmd(sh, i, envp);
 		if (cmd.path != NULL && cmd.name != NULL)
-			pids[i] = execute_cmd(cmd, fd_in, fd_out, envp);
+		{
+			pids[i] = execute_cmd(&cmd, fd_in, fd_out, envp);
+			sh->last_result = cmd.ret_code;
+		}
 		else
 		{
 			printf("minishell: command not found\n");
 			pids[i] = -1;
+			sh->last_result = 127;
 		}
 		close(fd_in);
 		close(fd_out);

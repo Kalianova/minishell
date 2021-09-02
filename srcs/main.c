@@ -53,13 +53,16 @@ int	main(int argc, char **argv, char **envp)
 		rl_on_new_line();
 		err_code = validate_line(line);
 		if (err_code != 0)
+		{
 			error_handler(err_code);
+			free(line);
+		}
 		else
 		{
 			sh = parser(line);
+			free(line);
 			execute_commads(sh, envp);
 		}
-		free(line);
 		free_shell(&sh);
 	}
 	rl_clear_history();

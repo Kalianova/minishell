@@ -29,6 +29,7 @@ typedef struct s_cmd
 	char		*name;
 	char		*path;
 	char		*params[3];
+	int			ret_code;
 }				t_cmd;
 
 int				validate_line(const char *line);
@@ -39,7 +40,7 @@ int				execute_commads(t_shell *sh, char **envp);
 
 /* pipe.c */
 
-pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp);
+pid_t			execute_cmd(t_cmd *cmd, int fd_in, int fd_out, char **envp);
 
 t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 

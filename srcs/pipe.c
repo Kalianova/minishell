@@ -2,21 +2,23 @@
 
 int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
 {
+	int	result;
+
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
 	close(fd_in);
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	if (my_exec(cmd.path, cmd.params[1], envp) == 127)
+	result = my_exec(cmd.path, cmd.params[1], envp);
+	if (result == 127)
 	{
-		if (execve(cmd.path, cmd.params, NULL) == -1)
-			return (1);
+		result = execve(cmd.path, cmd.params, NULL);
 	}
-	return (0);
+	return (result);
 }
 
-pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp)
+pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, char **envp)
 {
 	pid_t	pid;
 	int		fd_old_out;
@@ -27,7 +29,8 @@ pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, char **envp)
 	if (pid == 0)
 	{
 		fd_old_out = dup(STDOUT_FILENO);
-		if (child_process(cmd, fd_in, fd_out, envp))
+		cmd->ret_code = child_process(*cmd, fd_in, fd_out, envp);
+		if (cmd->ret_code)
 		{
 			dup2(fd_old_out, STDOUT_FILENO);
 			close(fd_old_out);
