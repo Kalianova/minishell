@@ -50,7 +50,7 @@ t_shell	*parser(const char *line)
 		return (NULL);
 	cmds = get_cmds(line, sh);
 	i = 0;
-	sh->commands = (t_ftpair *)malloc(sizeof(t_ftpair) * sh->count_commands);
+	sh->commands = (t_ftpair *)malloc(sizeof(t_ftpair) * sh->count_commands); // if NULL ?
 	while (cmds[i] != NULL)
 	{
 		sh->commands[i].name = ft_isubstr(cmds[i], 0, len_cmd(cmds[i]), '"');

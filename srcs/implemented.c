@@ -17,8 +17,7 @@ void	ft_clean(char ***arr)
 
 int	ft_cd(const char *params)
 {
-	chdir(params);
-	return (0);
+	return (chdir(params));
 }
 
 int	ft_echo(const char *params)

@@ -12,9 +12,9 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
 	close(fd_out);
 	result = my_exec(cmd.path, cmd.params[1], envp);
 	if (result == 127)
-	{
-		result = execve(cmd.path, cmd.params, NULL);
-	}
+		result = execve(cmd.path, cmd.params, envp);
+	else
+		exit(result);
 	return (result);
 }
 
@@ -29,8 +29,7 @@ pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, char **envp)
 	if (pid == 0)
 	{
 		fd_old_out = dup(STDOUT_FILENO);
-		cmd->ret_code = child_process(*cmd, fd_in, fd_out, envp);
-		if (cmd->ret_code)
+		if (child_process(*cmd, fd_in, fd_out, envp))
 		{
 			dup2(fd_old_out, STDOUT_FILENO);
 			close(fd_old_out);

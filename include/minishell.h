@@ -29,7 +29,6 @@ typedef struct s_cmd
 	char		*name;
 	char		*path;
 	char		*params[3];
-	int			ret_code;
 }				t_cmd;
 
 int				validate_line(const char *line);

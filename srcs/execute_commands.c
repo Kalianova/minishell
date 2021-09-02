@@ -81,7 +81,6 @@ int	execute_commads(t_shell *sh, char **envp)
 		if (cmd.path != NULL && cmd.name != NULL)
 		{
 			pids[i] = execute_cmd(&cmd, fd_in, fd_out, envp);
-			sh->last_result = cmd.ret_code;
 		}
 		else
 		{
@@ -97,9 +96,11 @@ int	execute_commads(t_shell *sh, char **envp)
 	i = 0;
 	while (i < sh->count_commands)
 	{
-		waitpid(pids[i], NULL, 0);
+		printf("pid: %i \n", pids[i]);
+		waitpid(pids[i], &sh->last_result, 0);
 		++i;
 	}
+	printf("Last code:%i\n", sh->last_result);
 	free(pids);
 	free_pipes(fd_pipes, sh->count_commands - 1);
 	return (0);
