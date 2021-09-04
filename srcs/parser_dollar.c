@@ -47,7 +47,7 @@ void	new_param(char **param, t_map *envp, int code)
 	{
 		free(part_of_param);
 		free(*param);
-		*param = res->value;
+		*param = ft_strdup(res->value);
 		return ;
 	}
 	free(part_of_param);

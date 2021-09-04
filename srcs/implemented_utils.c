@@ -33,6 +33,10 @@ int	my_exec(char *cmd, char *params, t_map *map)
 		return (ft_exit(params));
 	else if (ft_strncmp(cmd, "env", 4) == 0)
 		return (ft_env(params, map));
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		return (ft_export(params, map));
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		return (ft_unset(params, map));
 	else
 		return (127);
 	return (0);
