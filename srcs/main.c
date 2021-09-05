@@ -90,14 +90,16 @@ int	main(int argc, char **argv, char **envp)
 		rl_on_new_line();
 		err_code = validate_line(line);
 		if (err_code != 0)
+		{
 			error_handler(err_code);
+			free(line);
+		}
 		else
 		{
 			map = make_map(envp);
 			parser(line, map, sh);
 			execute_commads(sh, envp, map);
 		}
-		free(line);
 		free_shell(&sh);
 	}
 	free(sh);

@@ -2,19 +2,23 @@
 
 int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 {
+	int	result;
+
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
 	close(fd_in);
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	if (my_exec(cmd.path,  cmd.arr_params, envp) == 127)
-		if (execve(cmd.path, cmd.params, NULL) == -1)
-			return (1);
-	return (0);
+	result = my_exec(cmd.path, cmd.params[1], envp);
+	if (result == 127)
+		result = execve(cmd.path, cmd.params, envp);
+	else
+		exit(result);
+	return (result);
 }
 
-pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
+pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 {
 	pid_t	pid;
 	int		fd_old_out;
@@ -25,12 +29,12 @@ pid_t	execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 	if (pid == 0)
 	{
 		fd_old_out = dup(STDOUT_FILENO);
-		if (child_process(cmd, fd_in, fd_out, envp))
+		if (child_process(*cmd, fd_in, fd_out, envp))
 		{
 			dup2(fd_old_out, STDOUT_FILENO);
 			close(fd_old_out);
 			write(1, "Error: No such command or dup2 failed!\n", 39);
-			exit(1);
+			// exit(1);
 		}
 		// exit(0);
 	}
@@ -56,7 +60,7 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 	return (cmd);
 }
 
-char	*get_access_path(char *cmd_name, char *path, char **paths)
+char	*get_access_path(char *cmd_name, char *path)
 {
 	char	*temp;
 	char	*result;
@@ -65,10 +69,7 @@ char	*get_access_path(char *cmd_name, char *path, char **paths)
 	result = ft_strjoin(temp, cmd_name);
 	free(temp);
 	if (access(result, X_OK) == 0)
-	{
-		free_strings(paths);
 		return (result);
-	}
 	free(result);
 	return (NULL);
 }
@@ -91,11 +92,15 @@ char	*get_path(char *cmd_name, char **envp)
 			paths = ft_split(*envp + 5, ':');
 			while (paths[i] != NULL)
 			{
-				result = get_access_path(cmd_name, paths[i], paths);
+				result = get_access_path(cmd_name, paths[i]);
 				if (result != NULL)
+				{
+					ft_free_words(paths);
 					return (result);
+				}
 				++i;
 			}
+			ft_free_words(paths);
 		}
 		++envp;
 	}

@@ -47,7 +47,7 @@ void parser(const char *line, t_map *envp, t_shell *sh)
 
 	cmds = get_cmds(line, sh);
 	i = 0;
-	sh->commands = (t_ftpair *)malloc(sizeof(t_ftpair) * sh->count_commands);
+	sh->commands = (t_ftpair *)malloc(sizeof(t_ftpair) * sh->count_commands); // if NULL ?
 	while (cmds[i] != NULL)
 	{
 		sh->commands[i].name = ft_isubstr(cmds[i], 0, len_cmd(cmds[i]), '"');
@@ -64,4 +64,5 @@ void parser(const char *line, t_map *envp, t_shell *sh)
 		free(cmds[i]);
 		++i;
 	}
+	free(cmds);
 }

@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void ft_clean(char ***arr)
+void	ft_clean(char ***arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if ((*arr) == NULL)
@@ -17,8 +17,7 @@ void ft_clean(char ***arr)
 
 int	ft_cd(char *params)
 {
-	chdir(params);
-	return (0);
+	return (chdir(params));
 }
 
 int	ft_echo(char **params)
@@ -48,11 +47,12 @@ int	ft_echo(char **params)
 
 int	ft_pwd(char *params)
 {
-	char *res;
-	
+	char	*res;
+
 	if (params && params[0] == '-')
 	{
-		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n", params[1]);
+		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n",
+			params[1]);
 		return (0);
 	}
 	res = getcwd(NULL, 0);

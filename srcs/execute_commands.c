@@ -43,6 +43,21 @@ int	**get_pipes(int count)
 	return (fd_pipes);
 }
 
+void	free_pipes(int	**fd_pipes, int len)
+{
+	int	i;
+
+	i = 0;
+	if (fd_pipes == NULL)
+		return ;
+	while (i < len)
+	{
+		free(fd_pipes[i]);
+		++i;
+	}
+	free(fd_pipes);
+}
+
 int	execute_commads(t_shell *sh, char **envp, t_map *map)
 {
 	int		i;
@@ -63,7 +78,16 @@ int	execute_commads(t_shell *sh, char **envp, t_map *map)
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
 		cmd = parser_cmd(sh, i, envp);
-		pids[i] = execute_cmd(cmd, fd_in, fd_out, &map);
+		if (cmd.path != NULL && cmd.name != NULL)
+		{
+			pids[i] = execute_cmd(&cmd, fd_in, fd_out, &map);
+		}
+		else
+		{
+			printf("minishell: command not found\n");
+			pids[i] = -1;
+			sh->last_result = 127;
+		}
 		close(fd_in);
 		close(fd_out);
 		free_cmd(cmd);
@@ -72,10 +96,12 @@ int	execute_commads(t_shell *sh, char **envp, t_map *map)
 	i = 0;
 	while (i < sh->count_commands)
 	{
-		waitpid(pids[i], NULL, 0);
+		printf("pid: %i \n", pids[i]);
+		waitpid(pids[i], &sh->last_result, 0);
 		++i;
 	}
+	printf("Last code:%i\n", sh->last_result);
 	free(pids);
-	// fd_pipe_[0] free;
+	free_pipes(fd_pipes, sh->count_commands - 1);
 	return (0);
 }

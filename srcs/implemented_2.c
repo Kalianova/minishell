@@ -31,7 +31,6 @@ int ft_unset(const char *params, t_map **envp)
 int ft_env(const char *params, t_map **map)
 {
 	t_map *envp;
-
 	envp = *map;
 	if (envp == NULL)
 		return (-1);
