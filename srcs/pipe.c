@@ -10,9 +10,9 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	result = my_exec(cmd.path, cmd.params[1], envp);
+	result = my_exec(cmd.path, cmd.arr_params, envp);
 	if (result == 127)
-		result = execve(cmd.path, cmd.params, envp);
+		result = execve(cmd.path, cmd.params, 0);
 	else
 		exit(result);
 	return (result);

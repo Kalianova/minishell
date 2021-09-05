@@ -49,7 +49,7 @@ int				execute_commads(t_shell *sh, char **envp, t_map *map);
 
 /* pipe.c */
 
-pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map **envp);
+pid_t			execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp);
 
 t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 
