@@ -77,11 +77,11 @@ int				my_exec(char *cmd, char **params, t_map **map);
 
 /* implemented.c */
 
-int				ft_cd(char *params);
+int				ft_cd(char **params);
 
 int				ft_echo(char **params);
 
-int				ft_pwd(char *params);
+int				ft_pwd(char **params);
 
 int				ft_exit(char **params, t_map **map);
 
@@ -89,9 +89,9 @@ int				ft_exit(char **params, t_map **map);
 
 int				ft_export(const char *params, t_map **envp);
 
-int				ft_unset(const char *params, t_map **envp);
+int				ft_unset(char **params, t_map **envp);
 
-int				ft_env(const char *params, t_map **envp);
+int				ft_env(char **params, t_map **envp);
 
 /* parser_dollar.c */
 
@@ -111,7 +111,7 @@ void			ft_mapadd(t_map **map, char *key, char *value);
 
 void			ft_mapdel(t_map **map, char *key);
 
-void			ft_mapreplace(t_map *map, char *key, char *value);
+int				ft_mapreplace(t_map *map, char *key, char *value);
 
 t_map			*ft_mapfind(t_map *map, char *key);
 

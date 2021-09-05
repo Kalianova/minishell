@@ -49,7 +49,7 @@ void ft_mapdel(t_map **map, char *key)
 	}
 }
 
-void ft_mapreplace(t_map *map, char *key, char *value)
+int ft_mapreplace(t_map *map, char *key, char *value)
 {
 	t_map *tmp;
 
@@ -58,7 +58,9 @@ void ft_mapreplace(t_map *map, char *key, char *value)
 	{
 		free(tmp->value);
 		tmp->value = value;
+		return (1);
 	}
+	return (0);
 }
 
 t_map *ft_mapfind(t_map *map, char *key)

@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+int validation(char *param)
+{
+	int res;
+
+	res = 1;
+	if (!ft_isalnum(param[0]) || ft_isdigit(param[0]))
+		res = 0;
+	while (*param)
+		if (!(ft_isalnum(param[0])))
+			res = 0;
+	return (res);
+}
+
 int ft_export(const char *params, t_map **envp)
 {
 	t_map *map;
@@ -20,33 +33,45 @@ int ft_export(const char *params, t_map **envp)
 	return (0);
 }
 
-int ft_unset(const char *params, t_map **envp)
+int ft_unset(char **params, t_map **envp)
 {
-	ft_mapdel(envp, (char *)params);
-	(*envp)->key = NULL;
-	printf("Help me, i am empty :c -> cd %s\n", params);
+	if (params[0] && params[0][0] == '-')
+		printf("bash: unset: -%c: invalid option\nunset: usage: unset [-f] [-v] [-n] [name ...]\n", params[0][1]);
+	else
+	{
+		while (*params)
+		{
+			if (!validation(*params))
+				printf("bash: unset: `%s': not a valid identifier\n", *params);
+			else
+				ft_mapdel(envp, (char *)params);
+			++params;
+		}
+	}
 	return (0);
 }
 
-int ft_env(const char *params, t_map **map)
+int ft_env(char **params, t_map **map)
 {
 	t_map *envp;
+
 	envp = *map;
 	if (envp == NULL)
 		return (-1);
-	if (params && params[0] == '-')
+	if (params[0] && params[0][0] == '-')
 	{
-		printf("env: invalid option -- '%c'\n", params[1]);
+		printf("env: invalid option -- '%c'\n", params[0][1]);
 		return (0);
 	}
-	if (params)
+	if (params[0])
 	{
-		printf("env: invalid arguments -- '%s'\n", params);
+		printf("env: invalid arguments -- '%s'\n", params[0]);
 		return (0);
 	}
 	while (envp->prev)
 	{
-		printf("%s=%s\n", envp->key, envp->value);
+		if (envp->value != NULL)
+			printf("%s=%s\n", envp->key, envp->value);
 		envp = envp->prev;
 	}
 	printf("%s=%s\n", envp->key, envp->value);
