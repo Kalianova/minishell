@@ -8,8 +8,11 @@ int validation(char *param)
 	if (!ft_isalnum(param[0]) || ft_isdigit(param[0]))
 		res = 0;
 	while (*param)
+	{
 		if (!(ft_isalnum(param[0])))
 			res = 0;
+		param++;
+	}
 	return (res);
 }
 
@@ -44,7 +47,7 @@ int ft_unset(char **params, t_map **envp)
 			if (!validation(*params))
 				printf("bash: unset: `%s': not a valid identifier\n", *params);
 			else
-				ft_mapdel(envp, (char *)params);
+				ft_mapdel(envp, *params);
 			++params;
 		}
 	}

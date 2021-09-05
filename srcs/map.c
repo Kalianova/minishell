@@ -18,61 +18,62 @@ void ft_mapadd(t_map **map, char *key, char *value)
 
 void ft_mapdel(t_map **map, char *key)
 {
-	t_map *tmp;
+	t_map **tmp;
 
-	tmp = ft_mapfind(*map, key);
-	free(tmp->key);
-	free(tmp->value);
-	if (tmp)
+	tmp = ft_mapfind(map, key);
+	free((*tmp)->key);
+	free((*tmp)->value);
+	if (*tmp)
 	{
-		if (tmp->next && tmp->prev)
+		printf("__00");
+		if ((*tmp)->next && (*tmp)->prev)
 		{
-			tmp->next->prev = tmp->prev;
-			tmp->prev->next = tmp->next;
-			free(tmp);
+			(*tmp)->next->prev = (*tmp)->prev;
+			(*tmp)->prev->next = (*tmp)->next;
+			free((*tmp));
 		}
-		else if (tmp->prev)
+		else if ((*tmp)->prev)
 		{
-			*map = tmp->prev;
-			free(tmp);
+			*map = (*tmp)->prev;
+			free((*tmp));
 		}
-		else if (tmp->next)
+		else if ((*tmp)->next)
 		{
-			tmp->next->prev = NULL;
-			free(tmp);
+			(*tmp)->next->prev = NULL;
+			free((*tmp));
 		}
 		else
 		{
 			*map = NULL;
-			free(tmp);
+			free((*tmp));
 		}
 	}
 }
 
-int ft_mapreplace(t_map *map, char *key, char *value)
+int ft_mapreplace(t_map **map, char *key, char *value)
 {
-	t_map *tmp;
+	t_map **tmp;
 
 	tmp = ft_mapfind(map, key);
-	if (tmp)
+	if (*tmp)
 	{
-		free(tmp->value);
-		tmp->value = value;
+		free((*tmp)->value);
+		(*tmp)->value = value;
 		return (1);
 	}
 	return (0);
 }
 
-t_map *ft_mapfind(t_map *map, char *key)
+t_map **ft_mapfind(t_map **map, char *key)
 {
-	t_map *tmp;
+	t_map **tmp;
 
 	tmp = map;
-	while (tmp->prev)
+	while ((*tmp)->prev)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key) + 1) == 0)
+		if (ft_strncmp((*tmp)->key, key, ft_strlen(key) + 1) == 0)
 			return (tmp);
-		tmp = tmp->prev;
+		(*tmp) = (*tmp)->prev;
 	}
 	return (NULL);
 }

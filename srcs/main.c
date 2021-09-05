@@ -80,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 	sh->last_result = 0;
 	if (sh == NULL)
 		return (0);
+	map = make_map(envp);
 	while (1)
 	{
 		line = readline("$> ");
@@ -96,7 +97,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			map = make_map(envp);
 			parser(line, map, sh);
 			execute_commads(sh, envp, map);
 		}
