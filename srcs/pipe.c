@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
+int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 {
 	int	result;
 
@@ -10,15 +10,15 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, char **envp)
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
 	close(fd_out);
-	result = my_exec(cmd.path, cmd.params[1], envp);
+	result = my_exec(cmd.path, cmd.arr_params, envp);
 	if (result == 127)
-		result = execve(cmd.path, cmd.params, envp);
+		result = execve(cmd.path, cmd.params, 0);
 	else
 		exit(result);
 	return (result);
 }
 
-pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, char **envp)
+pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 {
 	pid_t	pid;
 	int		fd_old_out;
@@ -51,6 +51,7 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 	cmd.params[0] = ft_strdup(cmd.name);
 	cmd.params[1] = ft_strtrim(sh->commands[i].params, " ");
 	cmd.params[2] = NULL;
+	cmd.arr_params = sh->commands->arr_params;
 	if (*cmd.params[1] == '\0')
 	{
 		free(cmd.params[1]);

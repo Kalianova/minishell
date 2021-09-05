@@ -1,22 +1,37 @@
 #include "minishell.h"
 
-int	ft_export(const char *params)
+int ft_export(const char *params, t_map **envp)
 {
+	t_map *map;
+
+	map = *envp;
+	if (params == NULL)
+		while (map)
+		{
+			printf("declare -x %s=\"%s\"\n", map->key, map->value);
+			map = map->prev;
+		}
+	else if (params[0] == '-')
+	{
+		printf("export: %c: invalid option'\n", params[1]);
+		return (0);
+	}
 	printf("Help me, i am empty :c -> cd %s\n", params);
 	return (0);
 }
 
-int	ft_unset(const char *params)
+int ft_unset(const char *params, t_map **envp)
 {
+	ft_mapdel(envp, (char *)params);
+	(*envp)->key = NULL;
 	printf("Help me, i am empty :c -> cd %s\n", params);
 	return (0);
 }
 
-int	ft_env(const char *params, char **envp)
+int ft_env(const char *params, t_map **map)
 {
-	int	i;
-
-	i = 0;
+	t_map *envp;
+	envp = *map;
 	if (envp == NULL)
 		return (-1);
 	if (params && params[0] == '-')
@@ -29,10 +44,11 @@ int	ft_env(const char *params, char **envp)
 		printf("env: invalid arguments -- '%s'\n", params);
 		return (0);
 	}
-	while (envp[i])
+	while (envp->prev)
 	{
-		printf("%s\n", envp[i]);
-		++i;
+		printf("%s=%s\n", envp->key, envp->value);
+		envp = envp->prev;
 	}
+	printf("%s=%s\n", envp->key, envp->value);
 	return (0);
 }
