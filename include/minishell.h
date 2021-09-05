@@ -15,6 +15,7 @@ typedef struct s_ftpair
 {
 	char		*name;
 	char		*params;
+	char		**arr_params;
 }				t_ftpair;
 
 typedef struct s_shell
@@ -29,6 +30,7 @@ typedef struct s_cmd
 	char		*name;
 	char		*path;
 	char		*params[3];
+	char		**arr_params;
 }				t_cmd;
 
 typedef struct s_map
@@ -41,13 +43,13 @@ typedef struct s_map
 
 int				validate_line(const char *line);
 
-t_shell			*parser(const char *line);
+void			parser(const char *line, t_map *envp, t_shell *sh);
 
 int				execute_commads(t_shell *sh, char **envp, t_map *map);
 
 /* pipe.c */
 
-pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map *envp);
+pid_t			execute_cmd(t_cmd cmd, int fd_in, int fd_out, t_map **envp);
 
 t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
 
@@ -71,7 +73,7 @@ int				redirected(char *params, int io);
 
 int				is_implemented(char *cmd_name);
 
-int				my_exec(char *cmd, char *params, t_map *map);
+int				my_exec(char *cmd, char **params, t_map **map);
 
 /* implemented.c */
 
@@ -81,19 +83,27 @@ int				ft_echo(char **params);
 
 int				ft_pwd(char *params);
 
-int				ft_exit(char *params, t_map **map);
+int				ft_exit(char **params, t_map **map);
 
 /* implemented_2.c */
 
-int				ft_export(const char *params, t_map *envp);
+int				ft_export(const char *params, t_map **envp);
 
-int				ft_unset(const char *params, t_map *envp);
+int				ft_unset(const char *params, t_map **envp);
 
-int				ft_env(const char *params, t_map *envp);
+int				ft_env(const char *params, t_map **envp);
 
 /* parser_dollar.c */
 
 void			parser_dollar(char **param, t_map *envp, int code);
+
+char			*join_strings(char ***strs);
+
+/* parser_params.c */
+
+char			*parser_params(char *param, t_map *envp, int code);
+
+char			**parser_params_arr(char *param);
 
 /* map.c */
 

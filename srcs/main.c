@@ -29,8 +29,7 @@ void	free_shell(t_shell **sh)
 		}
 		if ((*sh)->commands)
 			free((*sh)->commands);
-		free(*sh);
-		*sh = NULL;
+
 	}	
 }
 
@@ -73,10 +72,14 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_shell		*sh;
 	int			err_code;
+	t_map		*map;
 
 	if (argc >= 0 && argv != NULL)
 		argv = NULL;
-	sh = NULL;
+	sh = (t_shell *)malloc(sizeof(t_shell));
+	sh->last_result = 0;
+	if (sh == NULL)
+		return (0);
 	while (1)
 	{
 		line = readline("$> ");
@@ -90,12 +93,14 @@ int	main(int argc, char **argv, char **envp)
 			error_handler(err_code);
 		else
 		{
-			sh = parser(line);
-			execute_commads(sh, envp, make_map(envp));
+			map = make_map(envp);
+			parser(line, map, sh);
+			execute_commads(sh, envp, map);
 		}
 		free(line);
 		free_shell(&sh);
 	}
-	rl_clear_history();
+	free(sh);
+	sh = NULL;
 	return (0);
 }

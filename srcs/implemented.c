@@ -63,10 +63,10 @@ int	ft_pwd(char *params)
 	return (0);
 }
 
-int	ft_exit(char *params, t_map **envp)
+int	ft_exit(char **params, t_map **envp)
 {
 	ft_mapdelall(envp);
 	//free(params);
-	printf("Help me, i am empty :c -> exit %s\n", params);
+	printf("Help me, i am empty :c -> exit %s\n", params[0]);
 	return (0);
 }

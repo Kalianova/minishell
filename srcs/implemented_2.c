@@ -1,9 +1,16 @@
 #include "minishell.h"
 
-int ft_export(const char *params, t_map *envp)
+int ft_export(const char *params, t_map **envp)
 {
+	t_map *map;
+
+	map = *envp;
 	if (params == NULL)
-		printf("declare -x %s=\"%s\"\n", envp->key, envp->value);
+		while (map)
+		{
+			printf("declare -x %s=\"%s\"\n", map->key, map->value);
+			map = map->prev;
+		}
 	else if (params[0] == '-')
 	{
 		printf("export: %c: invalid option'\n", params[1]);
@@ -13,16 +20,19 @@ int ft_export(const char *params, t_map *envp)
 	return (0);
 }
 
-int ft_unset(const char *params, t_map *envp)
+int ft_unset(const char *params, t_map **envp)
 {
-	ft_mapdel(envp, params);
-	envp->key = NULL;
+	ft_mapdel(envp, (char *)params);
+	(*envp)->key = NULL;
 	printf("Help me, i am empty :c -> cd %s\n", params);
 	return (0);
 }
 
-int ft_env(const char *params, t_map *envp)
+int ft_env(const char *params, t_map **map)
 {
+	t_map *envp;
+
+	envp = *map;
 	if (envp == NULL)
 		return (-1);
 	if (params && params[0] == '-')
