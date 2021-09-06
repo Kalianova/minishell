@@ -33,17 +33,6 @@ void	free_shell(t_shell **sh)
 	}	
 }
 
-/*void show_map(t_map *map)
-{
-	if (!map)
-		return ;
-	while (map)
-	{
-		printf("%s %s\n", map->key, map->value);
-		map = map->prev;
-	}
-}*/
-
 t_map *make_map(char **envp)
 {
 	t_map *map;
@@ -63,7 +52,6 @@ t_map *make_map(char **envp)
 		ft_mapadd(&map, ft_substr(envp[i], 0, pos),
 		ft_substr(envp[i], pos + 1, len - pos));
 	}
-	//show_map(map);
 	return (map);
 }
 
@@ -98,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			parser(line, map, sh);
-			execute_commads(sh, envp, map);
+			execute_commads(sh, envp, &map);
 		}
 		free_shell(&sh);
 	}

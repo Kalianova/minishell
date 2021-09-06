@@ -45,7 +45,7 @@ int				validate_line(const char *line);
 
 void			parser(const char *line, t_map *envp, t_shell *sh);
 
-int				execute_commads(t_shell *sh, char **envp, t_map *map);
+int				execute_commads(t_shell *sh, char **envp, t_map **map);
 
 /* pipe.c */
 
@@ -113,8 +113,11 @@ void			ft_mapdel(t_map **map, char *key);
 
 int				ft_mapreplace(t_map **map, char *key, char *value);
 
-t_map			**ft_mapfind(t_map **map, char *key);
+t_map			*ft_mapfind(t_map **map, char *key);
 
 void			ft_mapdelall(t_map **map);
+
+
+void show_map(t_map *map); ///////tmp
 
 #endif

@@ -51,6 +51,7 @@ int ft_unset(char **params, t_map **envp)
 			++params;
 		}
 	}
+	show_map(*envp);
 	return (0);
 }
 
