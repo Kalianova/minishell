@@ -82,10 +82,12 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	while (1)
 	{
+		my_signals(0);
 		line = readline("$> ");
-		//signal(SIGINT, signal_handler);
-		if (line == NULL)
-			return (0);
+		if (line == NULL) {
+			printf("NULL\n");
+			continue ;
+		}
 		add_history(line);
 		rl_on_new_line();
 		err_code = validate_line(line);
@@ -98,6 +100,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			map = make_map(envp);
 			parser(line, map, sh);
+			my_signals(1);
 			execute_commads(sh, envp, map);
 		}
 		free_shell(&sh);

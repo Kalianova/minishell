@@ -117,4 +117,7 @@ t_map			*ft_mapfind(t_map *map, char *key);
 
 void			ft_mapdelall(t_map **map);
 
+/* my_sygnals.c */
+int				my_signals(int mode);
+
 #endif
