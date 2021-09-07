@@ -20,7 +20,8 @@ SRCS =	main.c \
 		implemented_2.c \
 		parser_dollar.c \
 		parser_params.c \
-		map.c
+		my_signals.c \
+		map.c \
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 
