@@ -87,7 +87,7 @@ int				ft_exit(char **params, t_map **map);
 
 /* implemented_2.c */
 
-int				ft_export(const char *params, t_map **envp);
+int				ft_export(char **params, t_map **envp);
 
 int				ft_unset(char **params, t_map **envp);
 

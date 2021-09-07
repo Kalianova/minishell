@@ -33,10 +33,10 @@ void ft_mapdel(t_map **map, char *key)
 	t_map *tmp;
 
 	tmp = ft_mapfind(map, key);
-	free(tmp->key);
-	free(tmp->value);
 	if (tmp)
 	{
+		free(tmp->key);
+		free(tmp->value);
 		if (tmp->next != NULL && tmp->prev != NULL)
 		{
 			tmp->next->prev = tmp->prev;
