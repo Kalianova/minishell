@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+/*void show_map(t_map *map)
+{
+	if (!map)
+		return ;
+	while (map)
+	{
+		printf("%s %s\n", map->key, map->value);
+		map = map->prev;
+	}
+}*/
+
 void ft_mapadd(t_map **map, char *key, char *value)
 {
 	t_map *new_elem;
@@ -20,23 +31,23 @@ void ft_mapdel(t_map **map, char *key)
 {
 	t_map *tmp;
 
-	tmp = ft_mapfind(*map, key);
-	free(tmp->key);
-	free(tmp->value);
+	tmp = ft_mapfind(map, key);
 	if (tmp)
 	{
-		if (tmp->next && tmp->prev)
+		free(tmp->key);
+		free(tmp->value);
+		if (tmp->next != NULL && tmp->prev != NULL)
 		{
 			tmp->next->prev = tmp->prev;
 			tmp->prev->next = tmp->next;
-			free(tmp);
+			free((tmp));
 		}
-		else if (tmp->prev)
+		else if (tmp->prev != NULL)
 		{
 			*map = tmp->prev;
 			free(tmp);
 		}
-		else if (tmp->next)
+		else if (tmp->next != NULL)
 		{
 			tmp->next->prev = NULL;
 			free(tmp);
@@ -44,12 +55,12 @@ void ft_mapdel(t_map **map, char *key)
 		else
 		{
 			*map = NULL;
-			free(tmp);
+			free((tmp));
 		}
 	}
 }
 
-void ft_mapreplace(t_map *map, char *key, char *value)
+int ft_mapreplace(t_map **map, char *key, char *value)
 {
 	t_map *tmp;
 
@@ -58,14 +69,16 @@ void ft_mapreplace(t_map *map, char *key, char *value)
 	{
 		free(tmp->value);
 		tmp->value = value;
+		return (1);
 	}
+	return (0);
 }
 
-t_map *ft_mapfind(t_map *map, char *key)
+t_map *ft_mapfind(t_map **map, char *key)
 {
 	t_map *tmp;
 
-	tmp = map;
+	tmp = *map;
 	while (tmp->prev)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(key) + 1) == 0)

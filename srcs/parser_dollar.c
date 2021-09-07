@@ -42,7 +42,7 @@ void	new_param(char **param, t_map *envp, int code)
 		return ;
 	}
 	part_of_param = ft_substr(*param, 1, len - 1);
-	res = ft_mapfind(envp, part_of_param);
+	res = ft_mapfind(&envp, part_of_param);
 	if (res)
 	{
 		free(part_of_param);

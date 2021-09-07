@@ -45,7 +45,7 @@ int				validate_line(const char *line);
 
 void			parser(const char *line, t_map *envp, t_shell *sh);
 
-int				execute_commads(t_shell *sh, char **envp, t_map *map);
+int				execute_commads(t_shell *sh, char **envp, t_map **map);
 
 /* pipe.c */
 
@@ -77,21 +77,21 @@ int				my_exec(char *cmd, char **params, t_map **map);
 
 /* implemented.c */
 
-int				ft_cd(char *params);
+int				ft_cd(char **params);
 
 int				ft_echo(char **params);
 
-int				ft_pwd(char *params);
+int				ft_pwd(char **params);
 
 int				ft_exit(char **params, t_map **map);
 
 /* implemented_2.c */
 
-int				ft_export(const char *params, t_map **envp);
+int				ft_export(char **params, t_map **envp);
 
-int				ft_unset(const char *params, t_map **envp);
+int				ft_unset(char **params, t_map **envp);
 
-int				ft_env(const char *params, t_map **envp);
+int				ft_env(char **params, t_map **envp);
 
 /* parser_dollar.c */
 
@@ -111,9 +111,9 @@ void			ft_mapadd(t_map **map, char *key, char *value);
 
 void			ft_mapdel(t_map **map, char *key);
 
-void			ft_mapreplace(t_map *map, char *key, char *value);
+int				ft_mapreplace(t_map **map, char *key, char *value);
 
-t_map			*ft_mapfind(t_map *map, char *key);
+t_map			*ft_mapfind(t_map **map, char *key);
 
 void			ft_mapdelall(t_map **map);
 

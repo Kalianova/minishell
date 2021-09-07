@@ -58,7 +58,7 @@ void	free_pipes(int	**fd_pipes, int len)
 	free(fd_pipes);
 }
 
-int	execute_commads(t_shell *sh, char **envp, t_map *map)
+int	execute_commads(t_shell *sh, char **envp, t_map **map)
 {
 	int		i;
 	pid_t	*pids;
@@ -77,10 +77,11 @@ int	execute_commads(t_shell *sh, char **envp, t_map *map)
 	{
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
+		// printf("i = %i : fd_in: (%i) fd_out: (%i)\n", i, fd_in, fd_out);
 		cmd = parser_cmd(sh, i, envp);
 		if (cmd.path != NULL && cmd.name != NULL)
 		{
-			pids[i] = execute_cmd(&cmd, fd_in, fd_out, &map);
+			pids[i] = execute_cmd(&cmd, fd_in, fd_out, map);
 		}
 		else
 		{

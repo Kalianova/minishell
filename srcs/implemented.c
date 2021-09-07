@@ -1,23 +1,17 @@
 #include "minishell.h"
 
-void	ft_clean(char ***arr)
+int	ft_cd(char **params)
 {
-	int	i;
+	int res;
 
-	i = 0;
-	if ((*arr) == NULL)
-		return ;
-	while ((*arr)[i])
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-}
-
-int	ft_cd(char *params)
-{
-	return (chdir(params));
+	res = chdir(params[0]);
+	if (params[0] && params[0][0] == '-' && params[0][1])
+		printf("bash: cd: -%c: invalid option\ncd: usage: cd [-L|[-P [-e]] [-@]] [dir]\n", params[0][1]);
+	else if (params[0] && params[1])
+		printf("bash: cd: too many arguments\n");
+	else if (res < 0)
+		printf("bash: cd: %s: No such file or directory\n", params[0]);
+	return (res);
 }
 
 int	ft_echo(char **params)
@@ -45,14 +39,14 @@ int	ft_echo(char **params)
 	return (0);
 }
 
-int	ft_pwd(char *params)
+int	ft_pwd(char **params)
 {
 	char	*res;
 
-	if (params && params[0] == '-')
+	if (params[0] && params[0][0]== '-' && params[0][1])
 	{
 		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n",
-			params[1]);
+			params[0][1]);
 		return (0);
 	}
 	res = getcwd(NULL, 0);
