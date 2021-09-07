@@ -77,6 +77,7 @@ int	execute_commads(t_shell *sh, char **envp, t_map **map)
 	{
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
+		// printf("i = %i : fd_in: (%i) fd_out: (%i)\n", i, fd_in, fd_out);
 		cmd = parser_cmd(sh, i, envp);
 		if (cmd.path != NULL && cmd.name != NULL)
 		{
@@ -96,11 +97,9 @@ int	execute_commads(t_shell *sh, char **envp, t_map **map)
 	i = 0;
 	while (i < sh->count_commands)
 	{
-		printf("pid: %i \n", pids[i]);
 		waitpid(pids[i], &sh->last_result, 0);
 		++i;
 	}
-	printf("Last code:%i\n", sh->last_result);
 	free(pids);
 	free_pipes(fd_pipes, sh->count_commands - 1);
 	return (0);
