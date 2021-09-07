@@ -117,7 +117,4 @@ t_map			*ft_mapfind(t_map **map, char *key);
 
 void			ft_mapdelall(t_map **map);
 
-
-void show_map(t_map *map); ///////tmp
-
 #endif

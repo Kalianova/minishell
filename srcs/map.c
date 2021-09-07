@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-
-void show_map(t_map *map)
+/*void show_map(t_map *map)
 {
 	if (!map)
 		return ;
@@ -10,7 +9,7 @@ void show_map(t_map *map)
 		printf("%s %s\n", map->key, map->value);
 		map = map->prev;
 	}
-}
+}*/
 
 void ft_mapadd(t_map **map, char *key, char *value)
 {
