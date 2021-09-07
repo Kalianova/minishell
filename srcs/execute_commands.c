@@ -96,11 +96,9 @@ int	execute_commads(t_shell *sh, char **envp, t_map *map)
 	i = 0;
 	while (i < sh->count_commands)
 	{
-		printf("pid: %i \n", pids[i]);
 		waitpid(pids[i], &sh->last_result, 0);
 		++i;
 	}
-	printf("Last code:%i\n", sh->last_result);
 	free(pids);
 	free_pipes(fd_pipes, sh->count_commands - 1);
 	return (0);

@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 		my_signals(0);
 		line = readline("$> ");
 		if (line == NULL) {
-			printf("NULL\n");
+			exit(0);
 			continue ;
 		}
 		add_history(line);

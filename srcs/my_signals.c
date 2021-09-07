@@ -6,34 +6,29 @@ void	sig_handler(int code)
 
 	if (code == SIGINT)
 	{
-		// rl_replace_line("\n$> ", 0);
 		printf("\n");
-		// rl_redisplay();
 		rl_on_new_line();
+		rl_redisplay();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	if (code == SIGQUIT)
 	{
-		printf("quit\n");
-		exit (0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
 void	sig_handler_it(int code)
 {
-	static struct termios termios_save;
-
-	printf("it\n");
 	if (code == SIGINT)
 	{
 		printf("\n");
-		tcsetattr(0, 0, &termios_save);
 	}
 	if (code == SIGQUIT)
 	{
-		printf("quit\n");
-		exit (0);
+		printf("Quit\n");		
 	}
-	// rl_on_new_line();
 }
 
 int	my_signals(int mode)
