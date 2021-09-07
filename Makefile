@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =
 NAME = minishell
 
 DIR_LIBFT = libft
