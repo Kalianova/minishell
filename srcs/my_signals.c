@@ -3,7 +3,6 @@
 
 void	sig_handler(int code)
 {
-
 	if (code == SIGINT)
 	{
 		printf("\n");
@@ -27,7 +26,7 @@ void	sig_handler_it(int code)
 	}
 	if (code == SIGQUIT)
 	{
-		printf("Quit\n");		
+		printf("Quit\n");
 	}
 }
 

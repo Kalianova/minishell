@@ -28,7 +28,7 @@ int	export_impl(char *params, t_map **envp)
 		if (validation(params))
 			ft_mapreplace(envp, ft_strdup(params), ft_strdup(""));
 		else
-			printf("bash: export: `%s': not a valid identifier\n",
+			printf("minishell: export: `%s': not a valid identifier\n",
 				params);
 	}
 	else
@@ -38,7 +38,7 @@ int	export_impl(char *params, t_map **envp)
 			ft_mapreplace(envp, tmp,
 				ft_strdup(params + ft_strlen(tmp) + 1));
 		else
-			printf("bash: export: `%s': not a valid identifier\n", tmp);
+			printf("minishell: export: `%s': not a valid identifier\n", tmp);
 	}
 }
 
@@ -72,7 +72,7 @@ int	ft_unset(char **params, t_map **envp)
 {
 	if (params[0] && params[0][0] == '-' && params[0][1])
 	{
-		printf("bash: unset: -%c: invalid option\n", params[0][1]);
+		printf("minishell: unset: -%c: invalid option\n", params[0][1]);
 		printf("unset: usage: unset [-f] [-v] [-n] [name ...]\n");
 	}
 	else
