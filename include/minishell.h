@@ -111,13 +111,14 @@ void			ft_mapadd(t_map **map, char *key, char *value);
 
 void			ft_mapdel(t_map **map, char *key);
 
-int				ft_mapreplace(t_map **map, char *key, char *value);
+void			ft_mapreplace(t_map **map, char *key, char *value);
 
 t_map			*ft_mapfind(t_map **map, char *key);
 
 void			ft_mapdelall(t_map **map);
 
 /* my_sygnals.c */
+
 int				my_signals(int mode);
 
 #endif
