@@ -19,8 +19,9 @@ int validation(char *param)
 int ft_export(char **params, t_map **envp)
 {
 	t_map *map;
-
+	char *tmp;
 	map = *envp;
+
 	if (params[0] == NULL)
 		while (map)
 		{
@@ -31,6 +32,32 @@ int ft_export(char **params, t_map **envp)
 	{
 		printf("export: %c: invalid option'\n", params[0][1]);
 		return (0);
+	}
+	else
+	{
+		while (*params)
+		{
+			tmp = ft_strchr(params[0], '=');
+			if (tmp == NULL || tmp[1] == '\0')
+			{
+				if (tmp && tmp[0] == '=')
+					tmp[0] = '\0';
+				if (validation(params[0]))
+					ft_mapreplace(envp, ft_strdup(params[0]), ft_strdup(""));
+				else
+					printf("bash: export: `%s': not a valid identifier\n", params[0]);
+
+			}
+			else
+			{
+				tmp = ft_substr(params[0], 0, tmp - params[0]);
+				if (validation(tmp))
+					ft_mapreplace(envp, tmp, ft_strdup(params[0] + ft_strlen(tmp) + 1));
+				else
+					printf("bash: export: `%s': not a valid identifier\n", tmp);
+			}
+			params++;
+		}
 	}
 	return (0);
 }

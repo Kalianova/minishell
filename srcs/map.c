@@ -63,6 +63,7 @@ void ft_mapdel(t_map **map, char *key)
 int ft_mapreplace(t_map **map, char *key, char *value)
 {
 	t_map *tmp;
+	t_map *new_elem;
 
 	tmp = ft_mapfind(map, key);
 	if (tmp)
@@ -70,6 +71,19 @@ int ft_mapreplace(t_map **map, char *key, char *value)
 		free(tmp->value);
 		tmp->value = value;
 		return (1);
+	}
+	else
+	{
+		new_elem = (t_map *)malloc(sizeof(t_map));
+		new_elem->key = key;
+		new_elem->value = value;
+		new_elem->prev = NULL;
+		tmp = *map;
+		while (tmp && tmp->prev)
+			tmp = tmp->prev;
+		if (tmp)
+			tmp->prev = new_elem;
+		new_elem->next = tmp;
 	}
 	return (0);
 }
@@ -85,6 +99,8 @@ t_map *ft_mapfind(t_map **map, char *key)
 			return (tmp);
 		tmp = tmp->prev;
 	}
+	if (ft_strncmp(tmp->key, key, ft_strlen(key) + 1) == 0)
+		return (tmp);
 	return (NULL);
 }
 
