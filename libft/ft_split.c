@@ -38,7 +38,7 @@ static int	count_words(char const *s, char c)
 
 static char	*make_word(char const *s, int *begin, char c)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (s[*begin] == c && s[*begin])
@@ -49,7 +49,7 @@ static char	*make_word(char const *s, int *begin, char c)
 	return (ft_substr(s, (*begin) - j, j));
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		words;
 	int		i;
@@ -61,7 +61,8 @@ char		**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
-	if (!(res = (char **)malloc((words + 1) * sizeof(char *))))
+	res = (char **)malloc((words + 1) * sizeof(char *));
+	if (!(res))
 		return (NULL);
 	while (++arr < words)
 	{

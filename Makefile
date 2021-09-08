@@ -20,6 +20,7 @@ SRCS =	main.c \
 		implemented_2.c \
 		parser_dollar.c \
 		parser_params.c \
+		parser_additional.c \
 		my_signals.c \
 		map.c \
 

@@ -1,12 +1,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-void	signal_handler(int code)
-{
-	printf("--%i", code);
-	fflush(stdout);
-}
-
 void	error_handler(int code)
 {
 	printf("minishell: ");
@@ -29,16 +23,15 @@ void	free_shell(t_shell **sh)
 		}
 		if ((*sh)->commands)
 			free((*sh)->commands);
-
 	}	
 }
 
-t_map *make_map(char **envp)
+t_map	*make_map(char **envp)
 {
-	t_map *map;
-	int pos;
-	int len;
-	int i;
+	t_map	*map;
+	int		pos;
+	int		len;
+	int		i;
 
 	i = 0;
 	map = NULL;
@@ -50,7 +43,7 @@ t_map *make_map(char **envp)
 		len = ft_strlen(envp[i]);
 		pos = ft_strchr(envp[i], '=') - envp[i];
 		ft_mapadd(&map, ft_substr(envp[i], 0, pos),
-		ft_substr(envp[i], pos + 1, len - pos));
+			ft_substr(envp[i], pos + 1, len - pos));
 	}
 	return (map);
 }
@@ -73,7 +66,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		my_signals(0);
 		line = readline("$> ");
-		if (line == NULL) {
+		if (line == NULL)
+		{
 			exit(0);
 			continue ;
 		}

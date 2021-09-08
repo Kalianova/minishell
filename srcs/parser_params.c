@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int count_params(char *param)
+int	count_params(char *param)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (*param)
@@ -26,17 +26,17 @@ int count_params(char *param)
 	return (count);
 }
 
-char *parser_params(char *param, t_map *envp, int code)
+char	*parser_params(char *param, t_map *envp, int code)
 {
-	int count;
-	int i;
-	char **res;
-	int len;
+	int		count;
+	int		i;
+	char	**res;
+	int		len;
 
 	count = count_params(param);
 	res = (char **)malloc(sizeof(char *) * (count + 1));
 	i = 0;
-	while(i < count)
+	while (i < count)
 	{
 		len = 0;
 		if (param[len] == '\'')
@@ -55,10 +55,10 @@ char *parser_params(char *param, t_map *envp, int code)
 	return (join_strings(&res));
 }
 
-int count_params_arr(char *param)
+int	count_params_arr(char *param)
 {
-	char c;
-	int count;
+	char	c;
+	int		count;
 
 	count = 0;
 	while (*param)
@@ -82,12 +82,12 @@ int count_params_arr(char *param)
 	return (count);
 }
 
-void del_quotes(char **param)
+void	del_quotes(char **param)
 {
-	char *tmp;
-	char c;
-	int i;
-	int j;
+	char	*tmp;
+	char	c;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -98,32 +98,23 @@ void del_quotes(char **param)
 			c = (*param)[i];
 			++i;
 			while ((*param)[i] && (*param)[i] != c)
-			{
-				(*param)[j] = (*param)[i];
-				++j;
-				++i;
-			}
+				(*param)[++j - 1] = (*param)[++i - 1];
 			if ((*param)[i])
 				i++;
 		}
 		else
-		{
-			(*param)[j] = (*param)[i];
-			++j;
-			++i;
-		}
+			(*param)[++j - 1] = (*param)[++i - 1];
 	}
 	tmp = ft_substr(*param, 0, j);
 	*param = tmp;
 }
 
-char **parser_params_arr(char *param)
+char	**parser_params_arr(char *param)
 {
-	int count;
-	int i;
-	char **res;
-	int len;
-	char c;
+	int		count;
+	int		i;
+	char	**res;
+	int		len;
 
 	i = 0;
 	count = count_params_arr(param);
@@ -134,17 +125,7 @@ char **parser_params_arr(char *param)
 		while (*param && *param == ' ')
 			++param;
 		while (param[len] && param[len] != ' ')
-		{
-			if (param[len] == '\'' || param[len] == '\"')
-			{
-				c = param[len];
-				len++;
-				while (param[len] && param[len] != c)
-					++len;
-			}
-			if (param[len])
-				++len;
-		}
+			len = count_len(param, len);
 		res[i] = ft_substr(param, 0, len);
 		del_quotes(&res[i]);
 		param += len;

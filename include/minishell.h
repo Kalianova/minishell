@@ -105,6 +105,10 @@ char			*parser_params(char *param, t_map *envp, int code);
 
 char			**parser_params_arr(char *param);
 
+/* parser_additional.c */
+
+int				count_len(char *param, int len)
+
 /* map.c */
 
 void			ft_mapadd(t_map **map, char *key, char *value);
