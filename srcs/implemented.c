@@ -2,11 +2,14 @@
 
 int	ft_cd(char **params)
 {
-	int res;
+	int	res;
 
 	res = chdir(params[0]);
 	if (params[0] && params[0][0] == '-' && params[0][1])
-		printf("bash: cd: -%c: invalid option\ncd: usage: cd [-L|[-P [-e]] [-@]] [dir]\n", params[0][1]);
+	{
+		printf("bash: cd: -%c: invalid option\n", params[0][1]);
+		printf("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]\n");
+	}
 	else if (params[0] && params[1])
 		printf("bash: cd: too many arguments\n");
 	else if (res < 0)
@@ -16,8 +19,8 @@ int	ft_cd(char **params)
 
 int	ft_echo(char **params)
 {
-	int i;
-	int flag;
+	int	i;
+	int	flag;
 
 	if (!params)
 		return (-1);
@@ -29,7 +32,7 @@ int	ft_echo(char **params)
 	{
 		flag = 1;
 		++i;
-	} 
+	}
 	if (params[i])
 		printf("%s", params[i]);
 	while (params[++i])
@@ -43,7 +46,7 @@ int	ft_pwd(char **params)
 {
 	char	*res;
 
-	if (params[0] && params[0][0]== '-' && params[0][1])
+	if (params[0] && params[0][0] == '-' && params[0][1])
 	{
 		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n",
 			params[0][1]);
@@ -59,9 +62,9 @@ int	ft_pwd(char **params)
 
 int	ft_exit(char **params, t_map **envp)
 {
-	int res;
-	int i;
-	
+	int	res;
+	int	i;
+
 	i = -1;
 	res = 0;
 	printf("exit\n");
@@ -70,19 +73,18 @@ int	ft_exit(char **params, t_map **envp)
 		if (params[0])
 			res = ft_atoi(params[0]);
 		while (params[0] && params[0][++i])
+		{
 			if (!ft_isdigit(params[0][i]))
 			{
 				printf("bash: exit: %s: numeric argument required", params[0]);
 				res = 2;
 			}
-		i = 0;
-		while (params[i])
-		{
-			free(params[i]);
-			++i;
 		}
+		i = -1;
+		while (params[++i])
+			free(params[i]);
 		free(params);
 	}
 	ft_mapdelall(envp);
-	return(res);
+	return (res);
 }

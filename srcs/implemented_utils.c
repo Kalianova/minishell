@@ -38,5 +38,4 @@ int	my_exec(char *cmd, char **params, t_map **map)
 	else
 		return (127);
 	return (0);
-		//clear params
 }
