@@ -59,8 +59,30 @@ int	ft_pwd(char **params)
 
 int	ft_exit(char **params, t_map **envp)
 {
+	int res;
+	int i;
+	
+	i = -1;
+	res = 0;
+	printf("exit\n");
+	if (params)
+	{
+		if (params[0])
+			res = ft_atoi(params[0]);
+		while (params[0] && params[0][++i])
+			if (!ft_isdigit(params[0][i]))
+			{
+				printf("bash: exit: %s: numeric argument required", params[0]);
+				res = 2;
+			}
+		i = 0;
+		while (params[i])
+		{
+			free(params[i]);
+			++i;
+		}
+		free(params);
+	}
 	ft_mapdelall(envp);
-	//free(params);
-	printf("Help me, i am empty :c -> exit %s\n", params[0]);
-	return (0);
+	return(res);
 }
