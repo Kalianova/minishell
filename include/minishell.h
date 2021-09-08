@@ -107,7 +107,7 @@ char			**parser_params_arr(char *param);
 
 /* parser_additional.c */
 
-int				count_len(char *param, int len)
+int				count_len(char *param, int len);
 
 /* map.c */
 
