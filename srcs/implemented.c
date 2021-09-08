@@ -7,13 +7,13 @@ int	ft_cd(char **params)
 	res = chdir(params[0]);
 	if (params[0] && params[0][0] == '-' && params[0][1])
 	{
-		printf("bash: cd: -%c: invalid option\n", params[0][1]);
+		printf("minishell: cd: -%c: invalid option\n", params[0][1]);
 		printf("cd: usage: cd [-L|[-P [-e]] [-@]] [dir]\n");
 	}
 	else if (params[0] && params[1])
-		printf("bash: cd: too many arguments\n");
+		printf("minishell: cd: too many arguments\n");
 	else if (res < 0)
-		printf("bash: cd: %s: No such file or directory\n", params[0]);
+		printf("minishell: cd: %s: No such file or directory\n", params[0]);
 	return (res);
 }
 
@@ -48,7 +48,7 @@ int	ft_pwd(char **params)
 
 	if (params[0] && params[0][0] == '-' && params[0][1])
 	{
-		printf("bash: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n",
+		printf("minishell: pwd: -%c: invalid option\npwd: usage: pwd [-LP]\n",
 			params[0][1]);
 		return (0);
 	}
@@ -76,14 +76,12 @@ int	ft_exit(char **params, t_map **envp)
 		{
 			if (!ft_isdigit(params[0][i]))
 			{
-				printf("bash: exit: %s: numeric argument required", params[0]);
+				printf("minishell: exit: %s: numeric argument required",
+					params[0]);
 				res = 2;
 			}
 		}
-		i = -1;
-		while (params[++i])
-			free(params[i]);
-		free(params);
+		free_strings(params);
 	}
 	ft_mapdelall(envp);
 	return (res);
