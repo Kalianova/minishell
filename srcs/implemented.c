@@ -76,7 +76,7 @@ int	ft_exit(char **params, t_map **envp)
 		{
 			if (!ft_isdigit(params[0][i]))
 			{
-				printf("minishell: exit: %s: numeric argument required",
+				printf("minishell: exit: %s: numeric argument required\n",
 					params[0]);
 				res = 2;
 			}
