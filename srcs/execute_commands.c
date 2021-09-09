@@ -67,6 +67,8 @@ int	execute_commads(t_shell *sh, char **envp, t_map **map)
 	int		fd_out;
 	t_cmd	cmd;
 
+	if (sh->count_commands < 1)
+		return (0);
 	pids = (pid_t *)malloc(sizeof(pid_t) * sh->count_commands);
 	if (pids == NULL)
 		return (0);

@@ -8,21 +8,21 @@ void	error_handler(int code)
 		printf("syntax error near unexpected token\n");
 }
 
-void	free_shell(t_shell **sh)
+void	free_shell(t_shell *sh)
 {
 	int	i;
 
 	i = 0;
-	if (*sh != NULL)
+	if (sh != NULL)
 	{
-		while (i < (*sh)->count_commands)
+		while (i < sh->count_commands)
 		{
-			free((*sh)->commands[i].name);
-			free((*sh)->commands[i].params);
+			free(sh->commands[i].name);
+			free(sh->commands[i].params);
 			++i;
 		}
-		if ((*sh)->commands)
-			free((*sh)->commands);
+		if (sh->commands)
+			free(sh->commands);
 	}	
 }
 
@@ -51,16 +51,13 @@ t_map	*make_map(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	t_shell		*sh;
+	t_shell		sh;
 	int			err_code;
 	t_map		*map;
 
 	if (argc >= 0 && argv != NULL)
 		argv = NULL;
-	sh = (t_shell *)malloc(sizeof(t_shell));
-	sh->last_result = 0;
-	if (sh == NULL)
-		return (0);
+	sh.last_result = 0;
 	map = make_map(envp);
 	while (1)
 	{
@@ -75,19 +72,15 @@ int	main(int argc, char **argv, char **envp)
 		rl_on_new_line();
 		err_code = validate_line(line);
 		if (err_code != 0)
-		{
 			error_handler(err_code);
-			free(line);
-		}
 		else
 		{
-			parser(line, map, sh);
+			parser(line, map, &sh);
 			my_signals(1);
-			execute_commads(sh, envp, &map);
+			execute_commads(&sh, envp, &map);
 		}
+		free(line);
 		free_shell(&sh);
 	}
-	free(sh);
-	sh = NULL;
 	return (0);
 }
