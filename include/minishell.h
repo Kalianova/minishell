@@ -31,6 +31,7 @@ typedef struct s_cmd
 	char		*path;
 	char		*params[3];
 	char		**arr_params;
+	int			count_commands;
 }				t_cmd;
 
 typedef struct s_map

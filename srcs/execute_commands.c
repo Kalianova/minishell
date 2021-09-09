@@ -22,7 +22,7 @@ int	**get_pipes(int count)
 	int		**fd_pipes;
 
 	i = 0;
-	fd_pipes = (int **)malloc(sizeof(int) * count);
+	fd_pipes = (int **)malloc(sizeof(int *) * count);
 	if (fd_pipes == NULL)
 		return (NULL);
 	while (i < count)
@@ -68,16 +68,19 @@ int	execute_commads(t_shell *sh, char **envp, t_map **map)
 	t_cmd	cmd;
 
 	pids = (pid_t *)malloc(sizeof(pid_t) * sh->count_commands);
+	if (pids == NULL)
+		return (0);
 	fd_pipes = get_pipes(sh->count_commands - 1);
-	if (pids == NULL || fd_pipes == NULL)
-		write(1, "ERROR!\n", 7); // fix me or broke :
+	if (fd_pipes == NULL)
+	{
+		free(pids);
+		return (0);
+	}
 	i = 0;
-	// printf("COUNT OF commands = %i\n", sh->count_commands);
 	while (i < sh->count_commands)
 	{
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
-		// printf("i = %i : fd_in: (%i) fd_out: (%i)\n", i, fd_in, fd_out);
 		cmd = parser_cmd(sh, i, envp);
 		if (cmd.path != NULL && cmd.name != NULL)
 		{

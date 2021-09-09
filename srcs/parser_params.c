@@ -131,6 +131,7 @@ char	**parser_params_arr(char *param)
 		param += len;
 		++i;
 	}
+	
 	res[count] = NULL;
 	return (res);
 }

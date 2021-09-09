@@ -15,6 +15,7 @@ void	sig_handler(int code)
 	{
 		rl_on_new_line();
 		rl_redisplay();
+		printf("  \b\b");
 	}
 }
 

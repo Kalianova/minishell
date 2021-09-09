@@ -6,15 +6,15 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
-	// close(fd_in);
+	close(fd_in);
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (1);
-	// close(fd_out);
+	close(fd_out);
 	result = my_exec(cmd.path, cmd.arr_params, envp);
 	if (result == 127)
 		result = execve(cmd.path, cmd.params, 0);
 	// else
-		// exit(result);
+	// 	exit(result);
 	return (result);
 }
 
@@ -24,7 +24,7 @@ pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 	int		fd_old_out;
 	int		fd_old_in;
 
-	if (!is_implemented(cmd->name))
+	if (!is_implemented(cmd->name) || cmd->count_commands > 1)
 		pid = fork();
 	else
 		pid = 0;
@@ -43,6 +43,8 @@ pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 		}
 		else
 		{
+			if (cmd->count_commands > 1)
+				exit(0);
 			dup2(fd_old_out, STDOUT_FILENO);
 			dup2(fd_old_in, STDIN_FILENO);
 		}
@@ -60,7 +62,8 @@ t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
 	cmd.params[0] = ft_strdup(cmd.name);
 	cmd.params[1] = ft_strtrim(sh->commands[i].params, " ");
 	cmd.params[2] = NULL;
-	cmd.arr_params = sh->commands->arr_params;
+	cmd.arr_params = sh->commands[i].arr_params;
+	cmd.count_commands = sh->count_commands;
 	if (*cmd.params[1] == '\0')
 	{
 		free(cmd.params[1]);

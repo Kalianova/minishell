@@ -40,6 +40,7 @@ int	export_impl(char *params, t_map **envp)
 		else
 			printf("minishell: export: `%s': not a valid identifier\n", tmp);
 	}
+	return (0);
 }
 
 int	ft_export(char **params, t_map **envp)
