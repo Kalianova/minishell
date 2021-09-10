@@ -52,7 +52,7 @@ char	*parser_params(char *param, t_map *envp, int code)
 		i++;
 	}
 	res[count] = NULL;
-	return (join_strings(&res));
+	return (join_strings(&res)); // LEAK
 }
 
 int	count_params_arr(char *param)
@@ -106,6 +106,7 @@ void	del_quotes(char **param)
 			(*param)[++j - 1] = (*param)[++i - 1];
 	}
 	tmp = ft_substr(*param, 0, j);
+	free(*param);
 	*param = tmp;
 }
 
@@ -131,7 +132,6 @@ char	**parser_params_arr(char *param)
 		param += len;
 		++i;
 	}
-	
 	res[count] = NULL;
 	return (res);
 }

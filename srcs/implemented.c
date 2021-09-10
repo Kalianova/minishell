@@ -4,6 +4,8 @@ int	ft_cd(char **params)
 {
 	int	res;
 
+	if (params[0] == NULL)
+		return (0);
 	res = chdir(params[0]);
 	if (params[0] && params[0][0] == '-' && params[0][1])
 	{
@@ -79,6 +81,7 @@ int	ft_exit(char **params, t_map **envp)
 				printf("minishell: exit: %s: numeric argument required\n",
 					params[0]);
 				res = 2;
+				break ;
 			}
 		}
 		free_strings(params);

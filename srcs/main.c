@@ -17,6 +17,7 @@ void	free_shell(t_shell *sh)
 	{
 		while (i < sh->count_commands)
 		{
+			ft_free_words(sh->commands[i].arr_params);
 			free(sh->commands[i].name);
 			free(sh->commands[i].params);
 			++i;
@@ -37,13 +38,14 @@ t_map	*make_map(char **envp)
 	map = NULL;
 	while (envp[i])
 		++i;
+	char *tmp;
 	while (i > 0)
 	{
 		--i;
 		len = ft_strlen(envp[i]);
 		pos = ft_strchr(envp[i], '=') - envp[i];
 		ft_mapadd(&map, ft_substr(envp[i], 0, pos),
-			ft_substr(envp[i], pos + 1, len - pos));
+			ft_substr(envp[i], pos + 1, len - pos - 1));
 	}
 	return (map);
 }
@@ -78,9 +80,9 @@ int	main(int argc, char **argv, char **envp)
 			parser(line, map, &sh);
 			my_signals(1);
 			execute_commads(&sh, envp, &map);
+			free_shell(&sh);
 		}
 		free(line);
-		free_shell(&sh);
 	}
 	return (0);
 }

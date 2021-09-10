@@ -11,11 +11,17 @@ int	validate_sequence(const char *line, char ch)
 		return (1);
 	while (line[i] != '\0')
 	{
+		if (line[i] == ' ')
+		{
+			++i;
+			continue ;
+		}
 		if (line[i] == ch)
 			++char_in_row;
 		else
 			char_in_row = 0;
-		if (char_in_row > 2)
+		if (char_in_row > 2
+			|| (char_in_row > 1 && ch == '|'))
 			return (1);
 		++i;
 	}

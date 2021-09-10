@@ -4,6 +4,7 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 {
 	int	result;
 
+	// printf("---------------------cmd.params %s\n", cmd.params[1]);
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
 	close(fd_in);

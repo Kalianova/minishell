@@ -108,12 +108,11 @@ int	ft_env(char **params, t_map **map)
 		printf("env: invalid arguments -- '%s'\n", params[0]);
 		return (0);
 	}
-	while (envp->prev)
+	while (envp)
 	{
-		if (envp->value != NULL)
+		if (envp->value[0] != '\0')
 			printf("%s=%s\n", envp->key, envp->value);
 		envp = envp->prev;
 	}
-	printf("%s=%s\n", envp->key, envp->value);
 	return (0);
 }

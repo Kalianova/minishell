@@ -4,7 +4,7 @@ int	get_fd(t_shell *sh, int **fd_pipes, int i, int io)
 {
 	int	fd;
 
-	fd = redirected(sh->commands->params, io);
+	fd = redirected(sh->commands[i].params, io);
 	if (fd)
 		return (fd);
 	if (i == 0 && io == 0)

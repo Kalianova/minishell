@@ -44,6 +44,7 @@ void	parser(const char *line, t_map *envp, t_shell *sh)
 	int		i;
 	char	**cmds;
 	char	*tmp;
+	char	*s;
 
 	cmds = get_cmds(line, sh);
 	i = 0;
@@ -54,8 +55,10 @@ void	parser(const char *line, t_map *envp, t_shell *sh)
 		sh->commands[i].name = ft_isubstr(cmds[i], 0, len_cmd(cmds[i]), '"');
 		tmp = ft_substr(cmds[i], len_cmd(cmds[i]),
 				ft_strlen(cmds[i]) - len_cmd(cmds[i]));
-		sh->commands[i].params = parser_params(ft_strtrim(tmp, " "),
+		s = ft_strtrim(tmp, " ");
+		sh->commands[i].params = parser_params(s ,
 				envp, sh->last_result);
+		free(s);
 		free(tmp);
 		sh->commands[i].arr_params = parser_params_arr(sh->commands[i].params);
 		++i;

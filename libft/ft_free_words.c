@@ -17,6 +17,8 @@ void	ft_free_words(char **ar)
 	int	i;
 
 	i = 0;
+	if (ar == NULL)
+		return ;
 	while (ar[i] != NULL)
 	{
 		free(ar[i]);
