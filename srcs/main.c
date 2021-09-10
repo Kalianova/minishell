@@ -1,6 +1,6 @@
 #include "libft.h"
 #include "minishell.h"
-
+#include <termios.h>
 void	error_handler(int code)
 {
 	printf("minishell: ");
@@ -56,9 +56,13 @@ int	main(int argc, char **argv, char **envp)
 	t_shell		sh;
 	int			err_code;
 	t_map		*map;
+	struct termios	termios_p;
 
 	if (argc >= 0 && argv != NULL)
 		argv = NULL;
+	tcgetattr(STDIN_FILENO, &termios_p);
+	termios_p.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_p);
 	sh.last_result = 0;
 	map = make_map(envp);
 	while (1)

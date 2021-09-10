@@ -65,7 +65,7 @@ int	redirected(char *params, int io)
 			else if (params[i] == '<')
 				fd = open(file_name, O_RDONLY, S_IRWXU);
 			if (params[i] == '>' && params[i + 1] == '>')
-				fd = open(file_name, O_WRONLY | O_APPEND);
+				fd = open(file_name, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
 			else if (params[i] == '>')
 				fd = open(file_name, O_WRONLY | O_CREAT, S_IRWXU);
 			params[i] = ' ';
