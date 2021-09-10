@@ -38,7 +38,6 @@ t_map	*make_map(char **envp)
 	map = NULL;
 	while (envp[i])
 		++i;
-	char *tmp;
 	while (i > 0)
 	{
 		--i;
@@ -50,21 +49,10 @@ t_map	*make_map(char **envp)
 	return (map);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	main_loop(t_shell sh, t_map *map, char **envp, int err_code)
 {
-	char		*line;
-	t_shell		sh;
-	int			err_code;
-	t_map		*map;
-	struct termios	termios_p;
+	char	*line;
 
-	if (argc >= 0 && argv != NULL)
-		argv = NULL;
-	tcgetattr(STDIN_FILENO, &termios_p);
-	termios_p.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_p);
-	sh.last_result = 0;
-	map = make_map(envp);
 	while (1)
 	{
 		my_signals(0);
@@ -88,5 +76,23 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(line);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell			sh;
+	int				err_code;
+	t_map			*map;
+	struct termios	termios_p;
+
+	err_code = 0;
+	if (argc >= 0 && argv != NULL)
+		argv = NULL;
+	tcgetattr(STDIN_FILENO, &termios_p);
+	termios_p.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_p);
+	sh.last_result = 0;
+	map = make_map(envp);
+	main_loop(sh, map, envp, err_code);
 	return (0);
 }

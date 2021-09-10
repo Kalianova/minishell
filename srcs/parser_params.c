@@ -52,7 +52,7 @@ char	*parser_params(char *param, t_map *envp, int code)
 		i++;
 	}
 	res[count] = NULL;
-	return (join_strings(&res)); // LEAK
+	return (join_strings(&res));
 }
 
 int	count_params_arr(char *param)

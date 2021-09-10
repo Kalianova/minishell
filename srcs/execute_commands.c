@@ -5,6 +5,8 @@ int	get_fd(t_shell *sh, int **fd_pipes, int i, int io)
 	int	fd;
 
 	fd = redirected(sh->commands[i].params, io);
+	if (fd == -1)
+		return (-1);
 	if (fd)
 		return (fd);
 	if (i == 0 && io == 0)
@@ -30,12 +32,10 @@ int	**get_pipes(int count)
 		fd_pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (fd_pipes[i] == NULL)
 		{
-			//free pipes
 			return (NULL);
 		}
 		if (pipe(fd_pipes[i]) == -1)
 		{
-			//free pipes
 			return (NULL);
 		}
 		++i;
@@ -84,18 +84,22 @@ int	execute_commads(t_shell *sh, char **envp, t_map **map)
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
 		cmd = parser_cmd(sh, i, envp);
-		if (cmd.path != NULL && cmd.name != NULL)
+		if (cmd.path != NULL && cmd.name != NULL
+			&& fd_in != -1 && fd_out != -1)
 		{
 			pids[i] = execute_cmd(&cmd, fd_in, fd_out, map);
 		}
 		else
 		{
-			printf("minishell: command not found\n");
+			if (fd_in != -1 && fd_out != -1)
+				printf("minishell: command not found\n");
 			pids[i] = -1;
 			sh->last_result = 127;
 		}
-		close(fd_in);
-		close(fd_out);
+		if (fd_in != -1)
+			close(fd_in);
+		if (fd_out != -1)
+			close(fd_out);
 		free_cmd(cmd);
 		++i;
 	}

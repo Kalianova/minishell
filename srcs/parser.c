@@ -47,21 +47,20 @@ void	parser(const char *line, t_map *envp, t_shell *sh)
 	char	*s;
 
 	cmds = get_cmds(line, sh);
-	i = 0;
+	i = -1;
 	sh->commands = (t_ftpair *)malloc(sizeof(t_ftpair)
-			* sh->count_commands); // if NULL ?
-	while (cmds[i] != NULL)
+			* sh->count_commands);
+	while (cmds[++i] != NULL)
 	{
 		sh->commands[i].name = ft_isubstr(cmds[i], 0, len_cmd(cmds[i]), '"');
 		tmp = ft_substr(cmds[i], len_cmd(cmds[i]),
 				ft_strlen(cmds[i]) - len_cmd(cmds[i]));
 		s = ft_strtrim(tmp, " ");
-		sh->commands[i].params = parser_params(s ,
+		sh->commands[i].params = parser_params(s,
 				envp, sh->last_result);
 		free(s);
 		free(tmp);
 		sh->commands[i].arr_params = parser_params_arr(sh->commands[i].params);
-		++i;
 	}
 	i = 0;
 	while (cmds[i] != NULL)

@@ -4,7 +4,6 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 {
 	int	result;
 
-	// printf("---------------------cmd.params %s\n", cmd.params[1]);
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (1);
 	close(fd_in);
@@ -14,8 +13,6 @@ int	child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp)
 	result = my_exec(cmd.path, cmd.arr_params, envp);
 	if (result == 127)
 		result = execve(cmd.path, cmd.params, 0);
-	// else
-	// 	exit(result);
 	return (result);
 }
 
@@ -35,7 +32,6 @@ pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 	{
 		fd_old_out = dup(STDOUT_FILENO);
 		fd_old_in = dup(STDIN_FILENO);
-
 		if (child_process(*cmd, fd_in, fd_out, envp) == -1)
 		{
 			dup2(fd_old_out, STDOUT_FILENO);

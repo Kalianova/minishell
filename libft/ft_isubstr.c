@@ -34,6 +34,10 @@ char	*ft_isubstr(const char *s, unsigned int start, size_t len, char ch)
 		else
 			++start;
 	}
-	res[len] = '\0';
+	while (i <= len)
+	{
+		res[i] = '\0';
+		++i;
+	}
 	return (res);
 }
