@@ -58,37 +58,22 @@ void	free_pipes(int	**fd_pipes, int len)
 	free(fd_pipes);
 }
 
-int	execute_commads(t_shell *sh, t_map **map)
+void	execute_commads_add(t_shell *sh, t_map **map,
+	 pid_t *pids, int **fd_pipes)
 {
-	int		i;
-	pid_t	*pids;
-	int		**fd_pipes;
 	int		fd_in;
 	int		fd_out;
+	int		i;
 	t_cmd	cmd;
 
-	if (sh->count_commands < 1)
-		return (0);
-	pids = (pid_t *)malloc(sizeof(pid_t) * sh->count_commands);
-	if (pids == NULL)
-		return (0);
-	fd_pipes = get_pipes(sh->count_commands - 1);
-	if (fd_pipes == NULL)
-	{
-		free(pids);
-		return (0);
-	}
-	i = 0;
-	while (i < sh->count_commands)
+	i = -1;
+	while (++i < sh->count_commands)
 	{
 		fd_in = get_fd(sh, fd_pipes, i, 0);
 		fd_out = get_fd(sh, fd_pipes, i, 1);
 		cmd = parser_cmd(sh, i, map);
-		if (cmd.path != NULL && cmd.name != NULL
-			&& fd_in != -1 && fd_out != -1)
-		{
+		if (cmd.path && cmd.name && fd_in != -1 && fd_out != -1)
 			pids[i] = execute_cmd(&cmd, fd_in, fd_out, map);
-		}
 		else
 		{
 			if (ft_mapfind(map, "PATH") == NULL && cmd.name != NULL)
@@ -103,14 +88,30 @@ int	execute_commads(t_shell *sh, t_map **map)
 		if (fd_out != -1)
 			close(fd_out);
 		free_cmd(cmd);
-		++i;
 	}
+}
+
+int	execute_commads(t_shell *sh, t_map **map)
+{
+	int		i;
+	pid_t	*pids;
+	int		**fd_pipes;
+
+	if (sh->count_commands < 1)
+		return (0);
+	pids = (pid_t *)malloc(sizeof(pid_t) * sh->count_commands);
+	if (pids == NULL)
+		return (0);
+	fd_pipes = get_pipes(sh->count_commands - 1);
+	if (fd_pipes == NULL)
+	{
+		free(pids);
+		return (0);
+	}
+	execute_commads_add(sh, map, pids, fd_pipes);
 	i = 0;
 	while (i < sh->count_commands)
-	{
-		waitpid(pids[i], &sh->last_result, 0);
-		++i;
-	}
+		waitpid(pids[++i - 1], &sh->last_result, 0);
 	free(pids);
 	free_pipes(fd_pipes, sh->count_commands - 1);
 	return (0);
