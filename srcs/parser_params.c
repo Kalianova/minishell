@@ -84,19 +84,12 @@ int	count_params_arr(char *param)
 
 void	del_quotes(char **param, int flag)
 {
-	char	*tmp;
 	char	c;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	if (flag)
-	{
-		free(param[i]);
-		param[i] = NULL;
-		return ;
-	}
 	while ((*param)[i])
 	{
 		if ((*param)[i] == '\'' || (*param)[i] == '\"')
@@ -111,9 +104,7 @@ void	del_quotes(char **param, int flag)
 		else
 			(*param)[++j - 1] = (*param)[++i - 1];
 	}
-	tmp = ft_substr(*param, 0, j);
-	free(*param);
-	*param = tmp;
+	del_quotes_add(param, flag, j);
 }
 
 char	**parser_params_arr(char *param)

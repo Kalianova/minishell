@@ -15,3 +15,18 @@ int	count_len(char *param, int len)
 		++len;
 	return (len);
 }
+
+void del_quotes_add(char **param, int flag, int j)
+{
+	char	*tmp;
+
+	if (flag)
+	{
+		free(*param);
+		*param = NULL;
+		return ;
+	}
+	tmp = ft_substr(*param, 0, j);
+	free(*param);
+	*param = tmp;
+}

@@ -110,6 +110,8 @@ char			**parser_params_arr(char *param);
 
 int				count_len(char *param, int len);
 
+void			del_quotes_add(char **param, int flag, int j);
+
 /* map.c */
 
 void			ft_mapadd(t_map **map, char *key, char *value);
