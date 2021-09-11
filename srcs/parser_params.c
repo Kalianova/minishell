@@ -82,7 +82,7 @@ int	count_params_arr(char *param)
 	return (count);
 }
 
-void	del_quotes(char **param)
+void	del_quotes(char **param, int flag)
 {
 	char	*tmp;
 	char	c;
@@ -91,6 +91,12 @@ void	del_quotes(char **param)
 
 	i = 0;
 	j = 0;
+	if (flag)
+	{
+		free(param[i]);
+		param[i] = NULL;
+		return ;
+	}
 	while ((*param)[i])
 	{
 		if ((*param)[i] == '\'' || (*param)[i] == '\"')
@@ -116,11 +122,13 @@ char	**parser_params_arr(char *param)
 	int		i;
 	char	**res;
 	int		len;
+	int		flag;
 
-	i = 0;
+	i = -1;
+	flag = 0;
 	count = count_params_arr(param);
 	res = (char **)malloc(sizeof(char *) * (count + 1));
-	while (i < count)
+	while (++i < count)
 	{
 		len = 0;
 		while (*param && *param == ' ')
@@ -128,9 +136,10 @@ char	**parser_params_arr(char *param)
 		while (param[len] && param[len] != ' ')
 			len = count_len(param, len);
 		res[i] = ft_substr(param, 0, len);
-		del_quotes(&res[i]);
+		if (res[i][0] == '>' && res[i][1] == '\0')
+			flag = 1;
+		del_quotes(&res[i], flag);
 		param += len;
-		++i;
 	}
 	res[count] = NULL;
 	return (res);
