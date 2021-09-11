@@ -23,6 +23,8 @@ SRCS =	main.c \
 		parser_additional.c \
 		my_signals.c \
 		map.c \
+		pipe_child.c \
+		pipe_2.c \
 
 SRC = $(addprefix $(DIR_SRCS)/, $(SRCS))
 

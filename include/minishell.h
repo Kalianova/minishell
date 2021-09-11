@@ -128,4 +128,18 @@ void			ft_mapdelall(t_map **map);
 
 int				my_signals(int mode);
 
+/* pipe_child.c */
+
+void			child(int fd_in, int fd_out, t_cmd *cmd, t_map **envp);
+
+int				child_process(t_cmd cmd, int fd_in, int fd_out, t_map **envp);
+
+/* pipe_2.c */
+
+int				get_fd(t_shell *sh, int **fd_pipes, int i, int io);
+
+int				**get_pipes(int count);
+
+void			free_pipes(int	**fd_pipes, int len);
+
 #endif
