@@ -15,7 +15,7 @@ char	*get_file_name(char *s)
 		++i;
 	end = i;
 	res = ft_isubstr(s, start, end - start, '"');
-	while (s[start] != '\0')
+	while (s[start] != '\0' && s[start] != '<' && s[start] != '>')
 	{
 		s[start] = ' ';
 		++start;
@@ -51,6 +51,11 @@ char	*parse_fd(char **params, int i, int *fd)
 {
 	char	*file_name;
 
+	if (*fd != 0)
+	{
+		close(*fd);
+		*fd = 0;
+	}
 	file_name = get_file_name((*params) + i + 2);
 	if ((*params)[i] == '<' && (*params)[i + 1] == '<')
 		*fd = heredoc(file_name);

@@ -16,7 +16,7 @@ int	count_len(char *param, int len)
 	return (len);
 }
 
-void del_quotes_add(char **param, int flag, int j)
+void	del_quotes_add(char **param, int flag, int j)
 {
 	char	*tmp;
 
