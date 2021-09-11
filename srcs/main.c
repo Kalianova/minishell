@@ -49,7 +49,7 @@ t_map	*make_map(char **envp)
 	return (map);
 }
 
-void	main_loop(t_shell sh, t_map *map, char **envp, int err_code)
+void	main_loop(t_shell sh, t_map *map, int err_code)
 {
 	char	*line;
 
@@ -71,7 +71,7 @@ void	main_loop(t_shell sh, t_map *map, char **envp, int err_code)
 		{
 			parser(line, map, &sh);
 			my_signals(1);
-			execute_commads(&sh, envp, &map);
+			execute_commads(&sh, &map);
 			free_shell(&sh);
 		}
 		free(line);
@@ -93,6 +93,6 @@ int	main(int argc, char **argv, char **envp)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_p);
 	sh.last_result = 0;
 	map = make_map(envp);
-	main_loop(sh, map, envp, err_code);
+	main_loop(sh, map, err_code);
 	return (0);
 }

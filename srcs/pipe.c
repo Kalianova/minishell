@@ -49,13 +49,13 @@ pid_t	execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp)
 	return (pid);
 }
 
-t_cmd	parser_cmd(t_shell *sh, int i, char **envp)
+t_cmd	parser_cmd(t_shell *sh, int i, t_map **map)
 {
 	t_cmd	cmd;
 
 	cmd.name = ft_substr(sh->commands[i].name,
 			0, len_cmd(sh->commands[i].name));
-	cmd.path = get_path(cmd.name, envp);
+	cmd.path = get_path(cmd.name, map);
 	cmd.params[0] = ft_strdup(cmd.name);
 	cmd.params[1] = ft_strtrim(sh->commands[i].params, " ");
 	cmd.params[2] = NULL;
@@ -83,35 +83,33 @@ char	*get_access_path(char *cmd_name, char *path)
 	return (NULL);
 }
 
-char	*get_path(char *cmd_name, char **envp)
+char	*get_path(char *cmd_name, t_map **map)
 {
 	char	**paths;
 	int		i;
 	char	*result;
+	t_map	*tmp;
 
 	i = 0;
 	if (is_implemented(cmd_name))
 		return (ft_strdup(cmd_name));
 	if (access(cmd_name, X_OK) == 0)
 		return (ft_strdup(cmd_name));
-	while (*envp)
+	tmp = ft_mapfind(map, "PATH");
+	if (tmp)
 	{
-		if (ft_strncmp("PATH=", *envp, 5) == 0)
+		paths = ft_split(tmp->value, ':');
+		while (paths[i] != NULL)
 		{
-			paths = ft_split(*envp + 5, ':');
-			while (paths[i] != NULL)
+			result = get_access_path(cmd_name, paths[i]);
+			if (result != NULL)
 			{
-				result = get_access_path(cmd_name, paths[i]);
-				if (result != NULL)
-				{
-					ft_free_words(paths);
-					return (result);
-				}
-				++i;
+				ft_free_words(paths);
+				return (result);
 			}
-			ft_free_words(paths);
+			++i;
 		}
-		++envp;
+		ft_free_words(paths);
 	}
 	return (NULL);
 }

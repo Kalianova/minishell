@@ -46,17 +46,17 @@ int				validate_line(const char *line);
 
 void			parser(const char *line, t_map *envp, t_shell *sh);
 
-int				execute_commads(t_shell *sh, char **envp, t_map **map);
+int				execute_commads(t_shell *sh, t_map **map);
 
 /* pipe.c */
 
 pid_t			execute_cmd(t_cmd *cmd, int fd_in, int fd_out, t_map **envp);
 
-t_cmd			parser_cmd(t_shell *sh, int i, char **envp);
+t_cmd			parser_cmd(t_shell *sh, int i, t_map **map);
 
 void			free_cmd(t_cmd cmd);
 
-char			*get_path(char *cmd_name, char **envp);
+char			*get_path(char *cmd_name, t_map **envp);
 
 /* pipex_utils.c */
 
