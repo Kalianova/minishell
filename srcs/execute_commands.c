@@ -91,7 +91,9 @@ int	execute_commads(t_shell *sh, t_map **map)
 		}
 		else
 		{
-			if (fd_in != -1 && fd_out != -1)
+			if (ft_mapfind(map, "PATH") == NULL && cmd.name != NULL)
+				printf("minishell: %s: no such file or directory\n", cmd.name);
+			else if (fd_in != -1 && fd_out != -1)
 				printf("minishell: command not found\n");
 			pids[i] = -1;
 			sh->last_result = 127;
