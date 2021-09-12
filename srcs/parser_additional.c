@@ -51,3 +51,11 @@ char	**copy_arr(char **params, char *name)
 	result[0] = ft_strdup(name);
 	return (result);
 }
+
+int	check_redir(char **res, int i)
+{
+	return ((res[i][0] == '>' && res[i][1] == '\0')
+		|| (res[i][0] == '>' && res[i][1] == '>')
+		|| (res[i][0] == '<' && res[i][1] == '<')
+		|| (res[i][0] == '<' && res[i][1] == '\0'));
+}

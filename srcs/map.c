@@ -49,6 +49,7 @@ void	ft_mapreplace(t_map **map, char *key, char *value)
 	if (tmp)
 	{
 		free(tmp->value);
+		free(key);
 		tmp->value = value;
 		return ;
 	}

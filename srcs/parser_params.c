@@ -127,7 +127,7 @@ char	**parser_params_arr(char *param)
 		while (param[len] && param[len] != ' ')
 			len = count_len(param, len);
 		res[i] = ft_substr(param, 0, len);
-		if (res[i][0] == '>' && res[i][1] == '\0')
+		if (check_redir(res, i))
 			flag = 1;
 		del_quotes(&res[i], flag);
 		param += len;

@@ -114,6 +114,8 @@ void			del_quotes_add(char **param, int flag, int j);
 
 char			**copy_arr(char **params, char *name);
 
+int				check_redir(char **res, int i);
+
 /* map.c */
 
 void			ft_mapadd(t_map **map, char *key, char *value);
