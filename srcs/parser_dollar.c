@@ -90,6 +90,10 @@ int	find_end_elem(char *param)
 	int	i;
 
 	i = 1;
+	if (!param[0])
+		return (0);
+	if (!param[1])
+		return (0);
 	if (param[0] == '$' && param[1] == '?')
 		return (2);
 	if (param[0] == '$' && ft_isalnum(param[1]))

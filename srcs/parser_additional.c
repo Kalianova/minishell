@@ -30,3 +30,24 @@ void	del_quotes_add(char **param, int flag, int j)
 	free(*param);
 	*param = tmp;
 }
+
+char	**copy_arr(char **params, char *name)
+{
+	int		i;
+	char	**result;
+
+	i = 0;
+	while (params[i] != NULL)
+		++i;
+	result = (char **)malloc(sizeof(char *) * (i + 2));
+	while (i >= 0)
+	{
+		if (params[i] == NULL)
+			result[i + 1] = NULL;
+		else
+			result[i + 1] = ft_strdup(params[i]);
+		--i;
+	}
+	result[0] = ft_strdup(name);
+	return (result);
+}

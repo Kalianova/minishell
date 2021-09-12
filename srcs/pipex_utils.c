@@ -31,6 +31,8 @@ void	free_strings(char **strs)
 	int	i;
 
 	i = 0;
+	if (strs == NULL)
+		return ;
 	while (strs[i] != NULL)
 	{
 		free(strs[i]);
@@ -45,8 +47,5 @@ void	free_cmd(t_cmd cmd)
 		free(cmd.name);
 	if (cmd.path != NULL)
 		free(cmd.path);
-	if (cmd.params[0] != NULL)
-		free(cmd.params[0]);
-	if (cmd.params[1] != NULL)
-		free(cmd.params[1]);
+	free_strings(cmd.params);
 }

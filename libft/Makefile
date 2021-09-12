@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+CC = gcc
 FLAGS = -Wall -Wextra -Werror
 SRC = ft_atoi.c \
 	ft_bzero.c \
@@ -80,7 +81,7 @@ $(NAME): $(OBJ)
 	ar -rcs $(NAME) $?
 
 %.o:%.c
-	gcc $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 	$(CC) -MM $(FLAGS) $< > $*.d
 
 -include $(OBJ:.o=.d)

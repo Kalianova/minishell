@@ -27,13 +27,14 @@ void	child(int fd_in, int fd_out, t_cmd *cmd, t_map **envp)
 	{
 		dup2(fd_old_out, STDOUT_FILENO);
 		close(fd_old_out);
-		write(1, "Error: No such command or dup2 failed!\n", 39);
 	}
 	else
 	{
-		if (cmd->count_commands > 1)
-			exit(0);
 		dup2(fd_old_out, STDOUT_FILENO);
 		dup2(fd_old_in, STDIN_FILENO);
+		close(fd_old_out);
+		close(fd_old_in);
 	}
+	if (!is_implemented(cmd->name) || cmd->count_commands > 1)
+		exit(0);
 }

@@ -36,9 +36,11 @@ int	ft_echo(char **params)
 		++i;
 	}
 	if (params[i])
+	{
 		printf("%s", params[i]);
-	while (params[++i])
-		printf(" %s", params[i]);
+		while (params[++i])
+			printf(" %s", params[i]);
+	}
 	if (!flag)
 		printf("\n");
 	return (0);

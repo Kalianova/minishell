@@ -24,16 +24,9 @@ t_cmd	parser_cmd(t_shell *sh, int i, t_map **map)
 	cmd.name = ft_substr(sh->commands[i].name,
 			0, len_cmd(sh->commands[i].name));
 	cmd.path = get_path(cmd.name, map);
-	cmd.params[0] = ft_strdup(cmd.name);
-	cmd.params[1] = ft_strtrim(sh->commands[i].params, " ");
-	cmd.params[2] = NULL;
 	cmd.arr_params = sh->commands[i].arr_params;
+	cmd.params = copy_arr(cmd.arr_params, cmd.name);
 	cmd.count_commands = sh->count_commands;
-	if (*cmd.params[1] == '\0')
-	{
-		free(cmd.params[1]);
-		cmd.params[1] = NULL;
-	}
 	return (cmd);
 }
 

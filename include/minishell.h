@@ -29,7 +29,7 @@ typedef struct s_cmd
 {
 	char		*name;
 	char		*path;
-	char		*params[3];
+	char		**params;
 	char		**arr_params;
 	int			count_commands;
 }				t_cmd;
@@ -111,6 +111,8 @@ char			**parser_params_arr(char *param);
 int				count_len(char *param, int len);
 
 void			del_quotes_add(char **param, int flag, int j);
+
+char			**copy_arr(char **params, char *name);
 
 /* map.c */
 
