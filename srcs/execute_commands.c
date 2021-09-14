@@ -5,7 +5,7 @@ void	print_no_file(t_map **map, t_cmd cmd, int fd_in, int fd_out)
 	if (ft_mapfind(map, "PATH") == NULL && cmd.name != NULL)
 		printf("minishell: %s: no such file or directory\n", cmd.name);
 	else if (fd_in != -1 && fd_out != -1)
-		printf("minishell: command not found\n");
+		printf("minishell: %s: command not found\n", cmd.name);
 }
 
 void	execute_commads_add(t_shell *sh, t_map **map,

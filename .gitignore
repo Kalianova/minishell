@@ -1,0 +1,6 @@
+*.o
+*.d
+*.out
+*.a
+minishell
+vgcore*
