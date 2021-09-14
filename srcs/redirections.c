@@ -33,14 +33,14 @@ int	heredoc(char *delim)
 	if (pipe(pipefd) == -1)
 		printf("Pipe error\n");
 	line = readline("> ");
-	while (line != NULL && ft_strncmp(delim, line, ft_strlen(delim)) != 0)
+	while (line != NULL && ft_strncmp(delim, line, ft_strlen(delim) + 1) != 0)
 	{
 		write(pipefd[1], line, ft_strlen(line));
 		free(line);
 		line = readline("> ");
+		write(pipefd[1], "\n", 1);
 	}
 	free(line);
-	write(pipefd[1], "\n", 1);
 	res = dup(pipefd[0]);
 	close(pipefd[0]);
 	close(pipefd[1]);
